@@ -42,6 +42,22 @@ module.exports = {
         return;
       }
 
+      const up = client.emojis.cache
+      .find((emoji) => emoji.name == "upvote")
+      .toString();
+      const down = client.emojis.cache
+          .find((emoji) => emoji.name == "downvote")
+          .toString();
+      const neut = client.emojis.cache
+          .find((emoji) => emoji.name == "neutralvote")
+          .toString();
+
+      if (message.channel.id === "927365081371652137") {
+        await message.react(up);
+        await message.react(neut);
+        await message.react(down);
+      }
+
       // New XP System:
       xp.addXP(message, message.author.id, message.guild.id, 10);
 
