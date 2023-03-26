@@ -7,7 +7,7 @@ module.exports = {
   async execute(member, client) {
     console.log("Member joined!")
     const logChannel = member.guild.channels.cache.get("1052353564913172574");
-    const modChannel = member.guild.channels.cache.get("893189759474757693")
+    const modChannel = member.guild.channels.cache.get("1089619416653758564")
     const accountCreated = parseInt(member.user.createdTimestamp / 1000);
     const joinTime = parseInt(member.joinedAt / 1000);
     let riskColor;
@@ -64,7 +64,7 @@ module.exports = {
         .setStyle(ButtonStyle.Danger),
       );
 
-      return modChannel.send({ content: "<@178689418415177729> <@&854841000480079882> <@&927318500614225920> A suspicious account has joined the server. Please evaluate:", 
+      return modChannel.send({ content: "A suspicious account has joined the server. Please evaluate:", 
       embeds: [joinEmbed], 
       components: [buttons]})
       .then(logChannel.send({ embeds: [joinEmbed]}));
