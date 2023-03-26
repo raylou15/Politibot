@@ -43,14 +43,14 @@ module.exports = {
       }
 
       const up = client.emojis.cache
-      .find((emoji) => emoji.name == "upvote")
-      .toString();
+        .find((emoji) => emoji.name == "upvote")
+        .toString();
       const down = client.emojis.cache
-          .find((emoji) => emoji.name == "downvote")
-          .toString();
+        .find((emoji) => emoji.name == "downvote")
+        .toString();
       const neut = client.emojis.cache
-          .find((emoji) => emoji.name == "neutralvote")
-          .toString();
+        .find((emoji) => emoji.name == "neutralvote")
+        .toString();
 
       if (message.channel.id === "927365081371652137") {
         await message.react(up);
