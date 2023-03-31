@@ -393,8 +393,10 @@ const client = (module.exports = {
                 let summary;
                 if (bill.summary_short) {
                     summary = bill.summary_short
-                } else {
+                } else if (bill.summary) {
                     summary = `${bill.summary(substring(0, 2048))}...`
+                } else {
+                    summary = `FAILED TO RETRIEVE SUMMARY`
                 }
 
                 const introducedDate = time(new Date(bill.introduced_date))
