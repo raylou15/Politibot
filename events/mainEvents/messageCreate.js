@@ -113,7 +113,18 @@ module.exports = {
         message.content.toLowerCase().includes("les go brandon") ||
         message.content.toLowerCase().includes("less go brandon") ||
         message.content.toLowerCase().includes("let’s go brandon") ||
-        message.content.toLowerCase().includes("let’s go, brandon")
+        message.content.toLowerCase().includes("let’s go, brandon") ||
+        message.content.toLowerCase().includes("trans") ||
+        message.content.toLowerCase().includes("trann") ||
+        message.content.toLowerCase().includes("tran") ||
+        message.content.toLowerCase().includes("lgbtq") ||
+        message.content.toLowerCase().includes("lgbt") ||
+        message.content.toLowerCase().includes("rape") ||
+        message.content.toLowerCase().includes("athlete") ||
+        message.content.toLowerCase().includes("sport") ||
+        message.content.toLowerCase().includes("gay") ||
+        message.content.toLowerCase().includes("lesbian") ||
+        message.content.toLowerCase().includes("gender")
       ) {
         message.reply(":clown:");
       }
