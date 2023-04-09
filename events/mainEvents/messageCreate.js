@@ -99,7 +99,10 @@ module.exports = {
       if (
         message.content.toLowerCase().includes("sounds like commie") ||
         message.content.toLowerCase().includes("sounds like some commie") ||
-        message.content.toLowerCase().includes("commie")
+        message.content.toLowerCase().includes("commie") ||
+        message.content.toLowerCase().includes("proletariat") ||
+        message.content.toLowerCase().includes("wagie") ||
+        message.content.toLowerCase().includes("bourgeoisie")
       ) {
         message.reply(
           "https://cdn.discordapp.com/attachments/928407503690149939/1062530628257583104/commie.mp4"
@@ -114,28 +117,25 @@ module.exports = {
         message.content.toLowerCase().includes("less go brandon") ||
         message.content.toLowerCase().includes("let’s go brandon") ||
         message.content.toLowerCase().includes("let’s go, brandon") ||
-        message.content.toLowerCase().includes("trans") ||
-        message.content.toLowerCase().includes("trann") ||
-        message.content.toLowerCase().includes("tran") ||
-        message.content.toLowerCase().includes("lgbtq") ||
+        message.content.toLowerCase().includes(" tran") ||
+        message.content.toLowerCase().includes("trans ") ||
+        message.content.toLowerCase().includes("transsexual") ||
+        message.content.toLowerCase().includes("trans-sexual") ||
+        message.content.toLowerCase().includes("tran-sexual") ||
         message.content.toLowerCase().includes("lgbt") ||
         message.content.toLowerCase().includes("rape") ||
         message.content.toLowerCase().includes("athlete") ||
         message.content.toLowerCase().includes("sport") ||
         message.content.toLowerCase().includes("gay") ||
         message.content.toLowerCase().includes("lesbian") ||
-        message.content.toLowerCase().includes("gender")
+        message.content.toLowerCase().includes("gender") ||
+        message.content.toLowerCase().includes("breast augmentation") ||
+        message.content.toLowerCase().includes("pedo") ||
+        message.content.toLowerCase().includes("hormone") ||
+        message.content.toLowerCase().includes("blocker") ||
+        message.content.toLowerCase().includes("puberty") 
       ) {
         message.reply(":clown:");
-      }
-
-      if (message.author.id === "683511128961187920" && message.mentions.users.size !== 0) {
-        message.reply("<@683511128961187920>")
-        const target = message.author
-        const targetMember = message.guild.members.cache.get(target.id)
-        const duration = '15s'
-        targetMember.timeout(ms(duration))
-        target.send("Stop pinging people in every single message! You can communicate without it.")
       }
 
       // Genocide
