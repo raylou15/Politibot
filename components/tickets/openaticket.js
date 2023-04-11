@@ -1,6 +1,7 @@
 const { ButtonInteraction, ModalBuilder, ActionRowBuilder, TextInputBuilder, TextInputStyle, EmbedBuilder, ButtonBuilder, ButtonStyle, IntentsBitField } = require("discord.js");
 const config = require("../../config.json")
 const ticketHandler = require("../../handlers/tickethandler");
+const blacklistData = require("../../schemas/ticketblacklist");
 const client = module.exports = {
     name: "openaticket",
     /**
@@ -14,6 +15,16 @@ const client = module.exports = {
 
         if (truefalseVal === 'true') {
             return interaction.reply({ content: "You already have a ticket open. Reply in your DMs to the Politibot.", ephemeral: true })
+        }
+
+        const foundData = await blacklistData.findOne({ UserID: interaction.user.id })
+
+        console.log(foundData)
+
+        if (foundData) {
+            return interaction.reply({ ephemeral: true, content: "You have been blacklisted from using the Modmail System." })
+        } else {
+            console.log("Not blacklisted")
         }
 
         const dmErrorEmbed = new EmbedBuilder()

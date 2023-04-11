@@ -132,7 +132,7 @@ const client = (module.exports = {
                 }
 
                 const resultsEmbed = new EmbedBuilder()
-                .setColor("White")
+                .setColor("DarkBlue")
                 .setTitle(`Bill Search: ${query}`)
                 .setFooter({ text: "Data provided by ProPublica", iconURL: "https://play-lh.googleusercontent.com/8C5GNVMjuD0_jHbIsVH0UqJu_G_mpk_KXtclPkg2ZwnyC9fTfWbWGemUtG_siSXOv2s"})
                 .setTimestamp();
@@ -172,7 +172,7 @@ const client = (module.exports = {
                 }
 
                 const resultsEmbed = new EmbedBuilder()
-                .setColor("White")
+                .setColor("DarkBlue")
                 .setTitle(`Bill Search: ${query}`)
                 .setFooter({ text: "Data provided by ProPublica", iconURL: "https://play-lh.googleusercontent.com/8C5GNVMjuD0_jHbIsVH0UqJu_G_mpk_KXtclPkg2ZwnyC9fTfWbWGemUtG_siSXOv2s"})
                 .setTimestamp();
@@ -216,7 +216,7 @@ const client = (module.exports = {
                 }
 
                 const resultsEmbed = new EmbedBuilder()
-                .setColor("White")
+                .setColor("DarkBlue")
                 .setTitle(`Bill Subject Search: ${query}`)
                 .setFooter({ text: "Data provided by ProPublica", iconURL: "https://play-lh.googleusercontent.com/8C5GNVMjuD0_jHbIsVH0UqJu_G_mpk_KXtclPkg2ZwnyC9fTfWbWGemUtG_siSXOv2s"})
                 .setTimestamp();
@@ -249,7 +249,7 @@ const client = (module.exports = {
                 }
 
                 const resultsEmbed = new EmbedBuilder()
-                .setColor("White")
+                .setColor("DarkBlue")
                 .setTitle(`Recent Bills by ${json.results[0].bills[0].sponsor_title} ${json.results[0].name} (${json.results[0].bills[0].sponsor_party}-${json.results[0].bills[0].sponsor_state}) (ID: ${json.results[0].bills[0].sponsor_id})`)
                 .setFooter({ text: "Data provided by ProPublica", iconURL: "https://play-lh.googleusercontent.com/8C5GNVMjuD0_jHbIsVH0UqJu_G_mpk_KXtclPkg2ZwnyC9fTfWbWGemUtG_siSXOv2s"})
                 .setTimestamp();
@@ -292,7 +292,7 @@ const client = (module.exports = {
                 }
 
                 const resultsEmbed = new EmbedBuilder()
-                .setColor("White")
+                .setColor("DarkBlue")
                 .setTitle(`Recent ${typeChosen} bills: (Chamber: ${chamberChosen})`)
                 .setFooter({ text: "Data provided by ProPublica", iconURL: "https://play-lh.googleusercontent.com/8C5GNVMjuD0_jHbIsVH0UqJu_G_mpk_KXtclPkg2ZwnyC9fTfWbWGemUtG_siSXOv2s"})
                 .setTimestamp();
@@ -334,7 +334,7 @@ const client = (module.exports = {
                 }
 
                 const resultsEmbed = new EmbedBuilder()
-                .setColor("White")
+                .setColor("DarkBlue")
                 .setTitle(`Upcoming Votes in the ${chamberChosen}`)
                 .setURL(`${json.results[0].bills[0].url}`)
                 .setFooter({ text: "Data provided by ProPublica", iconURL: "https://play-lh.googleusercontent.com/8C5GNVMjuD0_jHbIsVH0UqJu_G_mpk_KXtclPkg2ZwnyC9fTfWbWGemUtG_siSXOv2s"})
@@ -410,7 +410,7 @@ const client = (module.exports = {
                 }
 
                 const resultsEmbed = new EmbedBuilder()
-                .setColor("White")
+                .setColor("DarkBlue")
                 .setThumbnail(thumbURL)
                 .setTitle(`${bill.number} - ${title}`)
                 .setURL(`${bill.versions[0].url}`)
@@ -441,7 +441,7 @@ const client = (module.exports = {
 
         } else if (interaction.options.getSubcommand() === 'help') {
             const helpEmbed = new EmbedBuilder()
-                .setColor("White")
+                .setColor("DarkBlue")
                 .setTitle("Congressional Information API")
                 .setDescription("You've probably noticed there's a **lot** of commands under `/searchbills` and other commands. This particular help embed will teach you how our searchbills system works and how to make the best use of it. It might be a complicated process, but it's extremely helpful and intuitive for research purposes.")
                 .addFields([

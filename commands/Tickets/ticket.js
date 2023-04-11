@@ -10,6 +10,7 @@ const {
 const ticketHandler = require("../../handlers/tickethandler");
 const config = require("../../config.json");
 const TicketCountSchema = require("../../schemas/ticketcount");
+const blacklistData = require("../../schemas/ticketblacklist");
 const client = (module.exports = {
   data: new SlashCommandBuilder()
     .setName("ticket")
@@ -24,6 +25,28 @@ const client = (module.exports = {
     .addSubcommand((subcommand) =>
       subcommand.setName("unclaim").setDescription("Unclaim an active ticket.")
     )
+    .addSubcommand((subcommand) =>
+      subcommand
+        .setName("blacklist")
+        .setDescription("Block an individual user from being able to use the tickets system.")
+        .addUserOption((options) =>
+          options
+            .setName("target")
+            .setDescription("Who do you want to blacklist?")
+            .setRequired(true)
+        )
+    )
+    .addSubcommand((subcommand) =>
+    subcommand
+      .setName("unblacklist")
+      .setDescription("Unblock an individual user from being able to use the tickets system.")
+      .addUserOption((options) =>
+        options
+          .setName("target")
+          .setDescription("Who do you want to remove from the blacklist?")
+          .setRequired(true)
+      )
+  )
     .addSubcommand((subcommand) =>
       subcommand
         .setName("contact")
@@ -41,6 +64,7 @@ const client = (module.exports = {
    */
   async execute(interaction, client) {
     // Contact Command
+    
     if (interaction.options.getSubcommand() === "contact") {
       const targetUser = interaction.options.getUser("target");
 
@@ -118,6 +142,61 @@ const client = (module.exports = {
         content: "A new ticket has been opened.",
         ephemeral: true,
       });
+    }
+
+    // Blacklist Command
+    if (interaction.options.getSubcommand() === "blacklist") {
+      const blacklistUser = await interaction.options.getUser("target");
+
+      const firstCheck = await blacklistData.findOne({ UserID: blacklistUser.id })
+
+      if (firstCheck) {
+        return await interaction.reply({ephemeral: true, content: `${blacklistUser} is already blacklisted.`})
+      }
+
+      const notifEmbed = new EmbedBuilder()
+        .setColor("Red")
+        .setTitle("Operation Politics Modmail System")
+        .setDescription("You have been blacklisted from the Modmail system. You will no longer be able to open tickets unless you are contacted first. This is likely due to abuse of our system.")
+        .setFooter({text: "This is non-appealable. If you need to report a rule violation, use a different method."})
+
+      let blacklist = new blacklistData({
+        UserID: blacklistUser.id
+      });
+      await blacklist.save().catch(console.error);
+
+      await interaction.reply({
+        content: `${blacklistUser} has been blacklisted from the Tickets system. You can still contact them, but they cannot contact us.`
+      })
+
+      return await blacklistUser.send({ embeds: [notifEmbed] })
+
+    }
+
+    // Unblacklist Command
+    if (interaction.options.getSubcommand() === "unblacklist") {
+      const blacklistUser = interaction.options.getUser("target");
+
+      const foundData = await blacklistData.findOne({ UserID: blacklistUser.id })
+
+      if (foundData) {
+        
+        await blacklistData.findOneAndDelete({ UserID: blacklistUser.id })
+        const notifEmbed = new EmbedBuilder()
+        .setColor("Yellow")
+        .setTitle("Operation Politics Modmail System")
+        .setDescription("You have been removed from the blacklist for the Modmail system. You can now open tickets if you need to. Do not abuse it.")
+
+        await interaction.reply({
+          content: `${blacklistUser} has been removed from the Tickets system blacklist. They will now be able to contact us.`
+        })
+
+        return await blacklistUser.send({ embeds: [notifEmbed]})
+
+      } else {
+          return interaction.reply({ ephemeral: true, content: `${blacklistUser} is not blacklisted from the Modmail system.`})
+      }
+
     }
 
     if (interaction.channel.parent.id !== config.ticketParent) {
@@ -384,5 +463,6 @@ const client = (module.exports = {
 
       mainchannel.setAppliedTags(tagArray);
     }
+
   },
 });

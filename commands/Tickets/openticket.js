@@ -1,5 +1,6 @@
 const {ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
 const ticketHandler = require("../../handlers/tickethandler");
+const blacklistData = require("../../schemas/ticketblacklist");
 const client = (module.exports = {
 data: new SlashCommandBuilder()
     .setName("openticket")
@@ -33,6 +34,16 @@ data: new SlashCommandBuilder()
             new ButtonBuilder().setCustomId('partnerships').setLabel('Partnerships').setStyle(ButtonStyle.Primary).setEmoji('🤝'),
             new ButtonBuilder().setCustomId('otherhelp').setLabel('Other').setStyle(ButtonStyle.Secondary).setEmoji('❔')
         );
+
+        const foundData = await blacklistData.findOne({ UserID: interaction.user.id })
+
+        console.log(foundData)
+
+        if (foundData) {
+            return interaction.reply({ ephemeral: true, content: "You have been blacklisted from using the Modmail System." })
+        } else {
+            console.log("Not blacklisted")
+        }
 
         await interaction.user.send({ embeds: [firstEmbed], components: [buttonsRow] }).catch(async (err) => {
             console.log(err);

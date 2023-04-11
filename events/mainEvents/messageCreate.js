@@ -117,23 +117,22 @@ module.exports = {
         message.content.toLowerCase().includes("less go brandon") ||
         message.content.toLowerCase().includes("let’s go brandon") ||
         message.content.toLowerCase().includes("let’s go, brandon") ||
-        message.content.toLowerCase().includes(" tran") ||
-        message.content.toLowerCase().includes("trans ") ||
+        message.content.toLowerCase().includes("trans bathrooms") ||
+        message.content.toLowerCase().includes("trans athlete") ||
+        message.content.toLowerCase().includes("trans people") ||
         message.content.toLowerCase().includes("transsexual") ||
+        message.content.toLowerCase().includes("trans gender") ||
+        message.content.toLowerCase().includes("transgender") ||
+        message.content.toLowerCase().includes("trans-gender") ||
         message.content.toLowerCase().includes("trans-sexual") ||
         message.content.toLowerCase().includes("tran-sexual") ||
-        message.content.toLowerCase().includes("lgbt") ||
-        message.content.toLowerCase().includes("rape") ||
-        message.content.toLowerCase().includes("athlete") ||
-        message.content.toLowerCase().includes("sport") ||
-        message.content.toLowerCase().includes("gay") ||
-        message.content.toLowerCase().includes("lesbian") ||
         message.content.toLowerCase().includes("gender") ||
         message.content.toLowerCase().includes("breast augmentation") ||
         message.content.toLowerCase().includes("pedo") ||
         message.content.toLowerCase().includes("hormone") ||
         message.content.toLowerCase().includes("blocker") ||
-        message.content.toLowerCase().includes("puberty") 
+        message.content.toLowerCase().includes("puberty") ||
+        message.content.toLowerCase().includes("genital")  
       ) {
         message.reply(":clown:");
       }
