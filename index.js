@@ -19,6 +19,23 @@ const client = new Client({
 
 const { loadEvents } = require("./handlers/handler");
 
+// Topic of the Day
+const topicCountSchema = require("./schemas/topiccount");
+const topiclistSchema = require("./schemas/topiclist");
+const topicofthedayhandler = require("./handlers/topicofthedayhandler")
+const oldPost = new schedule.RecurrenceRule();
+oldPost.tz = 'America/New_York'
+oldPost.second = 3;
+oldPost.minute = 0;
+oldPost.hour = 15;
+schedule.scheduleJob(oldPost, () => {topicofthedayhandler.oldPost(client)})
+const newPost = new schedule.RecurrenceRule();
+newPost.tz = 'America/New_York'
+newPost.second = 5;
+newPost.minute = 0;
+newPost.hour = 15;
+schedule.scheduleJob(newPost, () => {topicofthedayhandler.newPost(client)})
+
 // Newsletter Rules
 const newsletterhandler = require("./handlers/newsletterhandler")
 const rule1 = new schedule.RecurrenceRule();

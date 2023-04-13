@@ -64,34 +64,7 @@ module.exports = {
         const targetDiscrim = targetDiscrim1.replace("_", " ")
         const targetUser = client.users.cache.find(u => u.tag === targetDiscrim)
 
-        let staffID; // Setting up aliases for staff.
-        if (message.author.id === "178689418415177729") { // Ray
-            staffID = "0001"
-        } else if (message.author.id === "233325738013491200") { // Emily
-            staffID = "0002"
-        } else if (message.author.id === "213534403459022848") { // Senior Mods (100x) Pierce
-            staffID = "1003"
-        } else if (message.author.id === "202165686607282176") { // Smug
-            staffID = "1004"
-        } else if (message.author.id === "176502287156379648") { // Moderators - Austein
-            staffID = "2005"
-        } else if (message.author.id === "154381055841927168") { // Sarah
-            staffID = "2006"
-        } else if (message.author.id === "201390071113449472") { // Vanguard
-            staffID = "2007"
-        } else if (message.author.id === "755594548507574446") { // Rushtonian
-            staffID = "2008"
-        } else if (message.author.id === "145997807432499200") { // Stwicksy (Events)
-            staffID = "3009"
-        } else if (message.author.id === "402923996607152138") { // Salamigod
-            staffID = "3010"
-        } else if (message.author.id === "186867094476816384") { // OG
-            staffID = "3011"
-        } else if (message.author.id === "226999841358610432") { // Jab (Community)
-            staffID = "4012"
-        } else { // None of the above!
-            staffID = "Unassigned"
-        }
+        let staffID = message.author.id.slice(-5) // Setting up aliases for staff.
 
         const tagID = message.channel.appliedTags[0]
         const tagArray = [];
@@ -110,8 +83,8 @@ module.exports = {
         const msgEmbed = new EmbedBuilder()
         .setColor("Green")
         .setAuthor({ name: "Operation Politics Staff Response", iconURL: message.guild.iconURL() })
-        .setDescription(`Ticket: ${message.channel.name} \n\n**Response:** ${message.content}`)
-        .setFooter({ text: `Staff ID: ${staffID}` })
+        .setDescription(`**Response:** ${message.content}`)
+        .setFooter({ text: `Ticket: ${message.channel.name} • Staff ID: ${staffID}` })
         .setTimestamp();
 
         targetUser.send({ embeds: [msgEmbed] }).catch(async (err) => {
