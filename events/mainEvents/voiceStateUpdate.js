@@ -10,8 +10,8 @@ module.exports = {
         
         const vc = oldMember.channel
 
-        if (vc && vc.members.size < 1) {
-            if (vc.name[0] === "⭐") {
+        if (vc && vc.members.size === 0) {
+            if (vc.name[0] === "⭐" || vc.name.includes("Change My Mind")) {
                 return vc.delete()
             }
         }
