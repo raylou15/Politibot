@@ -32,11 +32,16 @@ module.exports = {
       .setDescription("Lists all upcoming debate topics.")
       )
     .addSubcommand(subcommand => subcommand
-      .setName("remove")
-      .setDescription("Remove a topic from the list")
+      .setName("edit")
+      .setDescription("Edit a topic from the list")
       .addNumberOption(options => options
         .setName("id")
-        .setDescription("What's the ID of the topic you want to remove?")
+        .setDescription("What's the ID of the topic you want to edit?")
+        .setRequired(true)
+        )
+      .addStringOption(options => options
+        .setName("topic")
+        .setDescription("What's the new topic?")
         .setRequired(true)
         )
       )
@@ -76,7 +81,7 @@ module.exports = {
         .setTitle("New Topic of the Day Submitted:")
         .setDescription(`ID: ${topicNum} \n${topic}`)
         .setColor("Green")
-        .setFooter({text: `Made a mistake? Use /totd remove ${topicNum}, or check the list of upcoming topics with /totd list`});
+        .setFooter({text: `Made a mistake? Use /totd edit ${topicNum}, or check the list of upcoming topics with /totd list`});
 
       await interaction.reply({ embeds: [confirmEmbed]});
     }
@@ -85,17 +90,37 @@ module.exports = {
       const currentTopic = await topicCountSchema.find({
         _id: "64371e3be9f18f407fa1a374"
       });
-      const currentTopicNum = currentTopic[0].currenttopic
+
+      const currentTopicNum = currentTopic[0].topiccount
 
       let topicList = await topiclistSchema.find({})
 
       topicList = topicList.filter(obj => obj.TopicID > currentTopicNum)
 
-      console.log(topicList)
+      const upcomingEmbed = new EmbedBuilder()
+        .setColor("Green")
+        .setTitle("Upcoming Topics of the Day")
+        .setDescription(topicList.map(obj => `‣ ID: ${obj.TopicID} - ${obj.Topic}`).join('\n\n'))
+
+      await interaction.reply({ embeds: [upcomingEmbed] })
 
     }
 
-    if (interaction.options.getSubcommand() === "remove") {
+    if (interaction.options.getSubcommand() === "edit") {
+
+      const topicid = interaction.options.getNumber('id')
+      const newtopic = interaction.options.getString('topic')
+
+      const newEmbed = new EmbedBuilder()
+      .setColor("Green")
+      .setTitle(`Topic of the Day ${topicid} Updated`)
+      .setDescription(`${newtopic}`)
+
+      const chosenTopic = await topiclistSchema.findOne({ TopicID: topicid })
+
+      await topiclistSchema.findOneAndUpdate({ TopicID: topicid }, { Topic: newtopic })
+
+      await interaction.reply({ embeds: [newEmbed] })
 
     }
 
