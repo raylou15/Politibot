@@ -33,7 +33,13 @@ module.exports = {
       });
     } else {
       channel.lockPermissions();
-      channel.send("This channel has been unlocked. Please behave.");
+
+      const lockEmbed = new EmbedBuilder()
+      .setColor("Green")
+      .setTitle("🔓  Channel Unlocked")
+      .setDescription("This channel has been unlocked. Please behave, stay civil, and keep in mind our <#775838975755681842> when discussing and debating.")
+
+      channel.send({ embeds: [lockEmbed] });
       interaction.reply({
         content: `${channel} has been unlocked.`,
         ephemeral: true,

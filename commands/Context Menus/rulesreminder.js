@@ -565,7 +565,7 @@ module.exports = {
             .setColor("White")
             .setTitle("7️⃣  Rule 7 Reminder")
             .setDescription(
-              `Hey therem ${targetUser.toString()}!\n\nWe have a lot of channels in this server that serve a lot of purposes. Therefore, we try to keep people and conversations organized and used in the proper places. It's important to avoid shitposting or memeing in the wrong channel, or talking about politics in the wrong channel, too! We're trying to build a community as much as we are building a place for civil discourse and debate.\n\n[This message](${
+              `Hey there, ${targetUser.toString()}!\n\nWe have a lot of channels in this server that serve a lot of purposes. Therefore, we try to keep people and conversations organized and used in the proper places. It's important to avoid shitposting or memeing in the wrong channel, or talking about politics in the wrong channel, too! We're trying to build a community as much as we are building a place for civil discourse and debate.\n\n[This message](${
                 targetMsg.url
               }) was potentially in violation of ` +
                 "`Rule 7 - No spam, NSFW, or misusing channels`, *(or this message was sent just as a general reminder!)* so we encourage you to revisit the rule in <#775838975755681842> and make sure you're not stepping out of boundaries."

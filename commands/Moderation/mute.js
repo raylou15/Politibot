@@ -130,7 +130,7 @@ module.exports = {
           { name: "**Case ID:**", value: caseNumVal.toString() }
         )
         .setFooter({
-          text: client.user.username,
+          text: client.user.username + ` • Please use /openticket if you have concerns. Do not discuss this in public channels, please`,
           iconURL: client.user.displayAvatarURL(),
         });
 

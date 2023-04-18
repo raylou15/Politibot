@@ -17,22 +17,6 @@ module.exports = {
       user = message.author;
       member = message.guild.members.cache.get(message.author.id);
 
-      // OpenAI
-      if (message.channel.id === "1095941326299734077" && !message.author.bot) {
-        message.channel.sendTyping()
-        console.log("ai msg detected")
-        const aiPrompt = message.content
-        const openai = new OpenAIApi(configuration);
-        const response = await openai.createCompletion({
-          model: "text-davinci-003",
-          prompt: aiPrompt,
-          temperature: 0,
-          max_tokens: 500,
-        });
-        console.log(response.data.choices)
-        return message.reply(response.data.choices[0].text)
-      }
-
       //News
       if (message.channel.type === ChannelType.GuildAnnouncement) {
         message.crosspost().catch(console.error);
@@ -117,21 +101,21 @@ module.exports = {
         message.content.toLowerCase().includes("less go brandon") ||
         message.content.toLowerCase().includes("let’s go brandon") ||
         message.content.toLowerCase().includes("let’s go, brandon") ||
-        message.content.toLowerCase().includes("trans bathrooms") ||
-        message.content.toLowerCase().includes("trans athlete") ||
-        message.content.toLowerCase().includes("trans people") ||
-        message.content.toLowerCase().includes("transsexual") ||
-        message.content.toLowerCase().includes("trans gender") ||
-        message.content.toLowerCase().includes("transgender") ||
-        message.content.toLowerCase().includes("trans-gender") ||
-        message.content.toLowerCase().includes("trans-sexual") ||
-        message.content.toLowerCase().includes("tran-sexual") ||
-        message.content.toLowerCase().includes("gender") ||
-        message.content.toLowerCase().includes("breast augmentation") ||
-        message.content.toLowerCase().includes("pedo") ||
-        message.content.toLowerCase().includes("hormone") ||
-        message.content.toLowerCase().includes("blocker") ||
-        message.content.toLowerCase().includes("puberty") ||
+        // message.content.toLowerCase().includes("trans bathrooms") ||
+        // message.content.toLowerCase().includes("trans athlete") ||
+        // message.content.toLowerCase().includes("trans people") ||
+        // message.content.toLowerCase().includes("transsexual") ||
+        // message.content.toLowerCase().includes("trans gender") ||
+        // message.content.toLowerCase().includes("transgender") ||
+        // message.content.toLowerCase().includes("trans-gender") ||
+        // message.content.toLowerCase().includes("trans-sexual") ||
+        // message.content.toLowerCase().includes("tran-sexual") ||
+        // message.content.toLowerCase().includes("gender") ||
+        // message.content.toLowerCase().includes("breast augmentation") ||
+        // message.content.toLowerCase().includes("pedo") ||
+        // message.content.toLowerCase().includes("hormone") ||
+        // message.content.toLowerCase().includes("blocker") ||
+        // message.content.toLowerCase().includes("puberty") ||
         message.content.toLowerCase().includes("genital")  
       ) {
         message.reply(":clown:");
