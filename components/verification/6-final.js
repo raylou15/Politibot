@@ -60,7 +60,7 @@ module.exports = {
     const logEmbed = new EmbedBuilder()
       .setColor("Green")
       .setAuthor({
-        name: interaction.user.tag,
+        name: interaction.user.username + ` ${interaction.user.id}`,
         iconURL: interaction.user.avatarURL(),
       })
       .addFields(

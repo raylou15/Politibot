@@ -11,7 +11,7 @@ const client = module.exports = {
         const nameArgs = interaction.channel.name.split("-")
         const targetDiscrim1 = `${nameArgs[0]}#${nameArgs[1]}`
         const targetDiscrim = targetDiscrim1.replace("_", " ")
-        const targetUser = client.users.cache.find(u => u.tag === targetDiscrim)
+        const targetUser = client.users.cache.find(u => u.username === targetDiscrim)
 
         const mainChannel = interaction.channel;
         const mainEmbed = interaction.message.embeds[0]

@@ -71,7 +71,7 @@ module.exports = {
         if (interaction.guild.members.cache.get(logData.TargetID)) {
           console.log("User is still in server!");
           targetUser = interaction.guild.members.cache.get(logData.TargetID);
-          targetUserTag = targetUser.user.tag;
+          targetUserTag = targetUser.user.username;
           targetUserAvatar = targetUser.user.displayAvatarURL();
         } else {
           console.log("User is no longer in server...");
@@ -82,7 +82,7 @@ module.exports = {
         if (interaction.guild.members.cache.get(logData.IssuerID)) {
           console.log("User is still in server!");
           issuerUser = interaction.guild.members.cache.get(logData.IssuerID);
-          issuerUserTag = issuerUser.user.tag
+          issuerUserTag = issuerUser.user.username
         } else {
           console.log("User is no longer in server...");
           issuerUser = "USER LEFT SERVER";
@@ -136,7 +136,7 @@ module.exports = {
 
       await infractionData.findOneAndUpdate(
         { CaseID: caseID }, 
-        { $set: {Reason: `CASE DELETED BY ${interaction.user.tag}`, TargetID: "0"} }
+        { $set: {Reason: `CASE DELETED BY ${interaction.user.username}`, TargetID: "0"} }
       ).then(interaction.reply(`Case ID ${caseID} deleted!`))
 
     } else if (interaction.options.getSubcommand() === "edit") {
@@ -186,7 +186,7 @@ module.exports = {
       const editEmbed = new EmbedBuilder()
         .setColor("Red")
         .setAuthor({
-          name: `${targetUser.user.tag}`,
+          name: `${targetUser.user.username}`,
           iconURL: `${targetUser.user.avatarURL()}`,
         })
         .setDescription(typeInfo)
@@ -195,7 +195,7 @@ module.exports = {
           { name: "**Case ID:**", value: logData.CaseID.toString() }
         )
         .setFooter({
-          text: "Action Issued: " + logData.Date + ` by ${issuerUser.user.tag}`,
+          text: "Action Issued: " + logData.Date + ` by ${issuerUser.user.username}`,
           iconURL: client.user.avatarURL(),
         });
 

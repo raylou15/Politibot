@@ -71,7 +71,7 @@ const client = (module.exports = {
       const notifEmbed = new EmbedBuilder()
         .setColor("Yellow")
         .setDescription(
-          "The Operation Politics Staff has opened a ticket with you. Please await a response below."
+          "The Operation Politics Staff has opened a ticket with you. Please await a response below. \n\nYou can reply to staff or communicate with them by DMing this bot. A green checkmark reaction indicates that the message has been successfully sent, whereas a red cross reaction indicates that the message has failed and you should try again. \n\nPlease note that we prefer message links over screenshots of messages whenever applicable or possible, but we can see any screenshots or videos you send us through here."
         )
         .setFooter({
           text: "If you do not receive a response after a while, please feel free to let us know.",
@@ -98,7 +98,7 @@ const client = (module.exports = {
       const ticketPreview = new EmbedBuilder()
         .setColor("Green")
         .setTitle("New Ticket Opened")
-        .setAuthor({ name: interaction.user.tag })
+        .setAuthor({ name: interaction.user.username })
         .setDescription(`A new ticket has been opened by ${interaction.user}`)
         .setFields([
           { name: "Category", value: "Moderation" },
@@ -122,7 +122,7 @@ const client = (module.exports = {
           .setStyle(ButtonStyle.Danger)
       );
 
-      const memberDiscriminator1 = targetUser.tag.replace("#", "-");
+      const memberDiscriminator1 = targetUser.username.replace("#", "-");
       const memberDiscriminator = memberDiscriminator1.replace(" ", "_");
       const ticketName = `${memberDiscriminator}-${ticketNum}`;
       const ticketCat = "moderation";
@@ -212,7 +212,7 @@ const client = (module.exports = {
       const targetDiscrim1 = `${nameArgs[0]}#${nameArgs[1]}`;
       const targetDiscrim = targetDiscrim1.replace("_", " ");
       const targetUser = client.users.cache.find(
-        (u) => u.tag === targetDiscrim
+        (u) => u.username === targetDiscrim
       );
 
       const mainChannel = interaction.channel;
@@ -301,7 +301,7 @@ const client = (module.exports = {
       const targetDiscrim1 = `${nameArgs[0]}#${nameArgs[1]}`;
       const targetDiscrim = targetDiscrim1.replace("_", " ");
       const targetUser = client.users.cache.find(
-        (u) => u.tag === targetDiscrim
+        (u) => u.username === targetDiscrim
       );
       const ticketsChannel = interaction.guild.channels.cache.get(
         config.ticketParent
@@ -387,7 +387,7 @@ const client = (module.exports = {
       const targetDiscrim1 = `${nameArgs[0]}#${nameArgs[1]}`;
       const targetDiscrim = targetDiscrim1.replace("_", " ");
       const targetUser = client.users.cache.find(
-        (u) => u.tag === targetDiscrim
+        (u) => u.username === targetDiscrim
       );
       const ticketsChannel = interaction.guild.channels.cache.get(
         config.ticketParent

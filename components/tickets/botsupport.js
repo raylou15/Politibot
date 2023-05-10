@@ -89,7 +89,7 @@ const client = module.exports = {
                 const ticketPreview = new EmbedBuilder()
                     .setColor('Green')
                     .setTitle('New Ticket Opened')
-                    .setAuthor({ name: interaction.user.tag})
+                    .setAuthor({ name: interaction.user.username})
                     .setDescription(`A new ticket has been opened by ${interaction.user}`)
                     .setFields([
                         { name: "Category", value: "Bot Support" },
@@ -101,12 +101,16 @@ const client = module.exports = {
                 const ticketPreviewU = new EmbedBuilder()
                     .setColor('Green')
                     .setTitle('New Ticket Opened')
-                    .setAuthor({ name: interaction.user.tag})
+                    .setAuthor({ name: interaction.user.username})
                     .setDescription(`A new ticket has been opened by ${interaction.user}`)
                     .setFields([
                         { name: "Category", value: "Bot Support" },
                         { name: "Reason:", value: modalSubmitted.fields.getTextInputValue('reasoninput') }
                     ])
+
+                const ticketInstructions = new EmbedBuilder()
+                    .setColor('Yellow')
+                    .setDescription('A new ticket has been opened! Please be patient and wait for a response from staff, or provide additional information if necessary. \n\nYou can reply to staff or communicate with them by DMing this bot. A green checkmark reaction indicates that the message has been successfully sent, whereas a red cross reaction indicates that the message has failed and you should try again. \n\nPlease note that we prefer message links over screenshots of messages whenever applicable or possible, but we can see any screenshots or videos you send us through here.')
 
                 const ticketButtons = new ActionRowBuilder().addComponents(
                     new ButtonBuilder()
@@ -117,11 +121,15 @@ const client = module.exports = {
                         .setCustomId('closeticket')
                         .setLabel('Close')
                         .setStyle(ButtonStyle.Danger),
+                    new ButtonBuilder()
+                        .setCustomId('takeover')
+                        .setLabel('❗')
+                        .setStyle(ButtonStyle.Secondary)
                 )
 
-                interaction.update({ content: "A new ticket has been opened! Please be patient and wait for a response from staff, or provide additional information if necessary.", embeds: [ticketPreviewU], components: [] })
+                interaction.update({ content: "See below:", embeds: [ticketPreviewU, ticketInstructions], components: [] })
 
-                const memberDiscriminator1 = interaction.user.tag.replace("#", "-");
+                const memberDiscriminator1 = interaction.user.username.replace("#", "-");
                 const memberDiscriminator = memberDiscriminator1.replace(" ", "_");
                 const ticketName = `${memberDiscriminator}-${ticketNum}`;
                 const ticketCat = "bot support";

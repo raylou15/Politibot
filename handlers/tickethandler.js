@@ -42,7 +42,7 @@ function TicketCreate(client, ticketName, ticketCat, ticketPreview, ticketButton
 function TicketChecker(client, interaction) {
     const ticketChannel = client.guilds.cache.get(config.guildID).channels.cache.get(config.ticketParent);
 
-    const memberDiscriminator1 = interaction.user.tag.replace("#", "-")
+    const memberDiscriminator1 = interaction.user.username.replace("#", "-")
     const memberDiscriminator = memberDiscriminator1.replace(" ", "_")
     const discrimLength = memberDiscriminator.length
     let ticketsArray = [];

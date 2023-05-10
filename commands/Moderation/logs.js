@@ -56,12 +56,12 @@ module.exports = {
         issuerUser = interaction.guild.members.cache.get(element.IssuerID);
         if (element.InfractionType === "Mute") {
           logDataEmbed.addFields({
-            name: `${element.InfractionType} issued by ${issuerUser.user.tag} for ${element.Duration}`,
+            name: `${element.InfractionType} issued by ${issuerUser.user.username} for ${element.Duration}`,
             value: `${element.Date}\n**Reason:** ${element.Reason}\n**Case ID:** ${element.CaseID}\n━━━━━━━━━━━━━━━`,
           });
         } else {
           logDataEmbed.addFields({
-            name: `${element.InfractionType} issued by ${issuerUser.user.tag}`,
+            name: `${element.InfractionType} issued by ${issuerUser.user.username}`,
             value: `${element.Date}\n**Reason:** ${element.Reason}\n**Case ID:** ${element.CaseID}\n━━━━━━━━━━━━━━━`,
           });
         }

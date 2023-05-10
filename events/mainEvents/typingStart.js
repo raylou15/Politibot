@@ -9,7 +9,7 @@ module.exports = {
     
     if (typing.channel.isDMBased()) {
         const user = typing.user
-        const memberDiscriminator1 = user.tag.replace("#", "-")
+        const memberDiscriminator1 = user.username.replace("#", "-")
         const memberDiscriminator = memberDiscriminator1.replace(" ", "_")
         const discrimLength = memberDiscriminator.length
 
@@ -29,15 +29,15 @@ module.exports = {
     }
     if (typing.channel.parent.id === "1053882820684169266") {
         const nameArgs = typing.channel.name.split("-")
-        const targetDiscrim1 = `${nameArgs[0]}#${nameArgs[1]}`
+        const targetDiscrim1 = `${nameArgs[0]}`
         const targetDiscrim = targetDiscrim1.replace("_", " ")
-        const targetUser = client.users.cache.find(u => u.tag === targetDiscrim)
+        const targetUser = client.users.cache.find(u => u.username === targetDiscrim)
         const targetUserChannel = await targetUser.createDM()
         console.log(targetUser)
         console.log(await targetUserChannel)
         return targetUserChannel.sendTyping().catch(async (err) => {
             console.log(err);
-            console.log(`Error encountered trying to send a typing notification to ${targetUser.tag}`);
+            console.log(`Error encountered trying to send a typing notification to ${targetUser.username}`);
           });
     }
     

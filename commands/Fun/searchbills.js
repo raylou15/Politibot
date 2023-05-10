@@ -382,6 +382,7 @@ const client = (module.exports = {
                     interaction.reply("This bill doesn't exist! Follow the correct id format (ex: hr3455) and try again, or try specifying which Congress.")
                 }
 
+                console.log(json)
                 const bill = json.results[0]
 
                 let title;

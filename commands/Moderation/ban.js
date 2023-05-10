@@ -83,7 +83,7 @@ module.exports = {
     const banEmbed = new EmbedBuilder()
       .setColor("Red")
       .setAuthor({
-        name: `${target.user.tag}`,
+        name: `${target.user.username}`,
         iconURL: `${target.user.displayAvatarURL()}`,
       })
       .setDescription(`**Member banned:**\n🔨 ${target.user} (${target.id})`)

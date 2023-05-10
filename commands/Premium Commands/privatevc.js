@@ -96,7 +96,7 @@ const {
             if (inviteeMember.voice.channel) {
               if (interaction.member.voice.channel.name[0] === "⭐") {
                 const inviteEmbed = new EmbedBuilder()
-                  .setAuthor({ name: `${interaction.user.tag} has invited you to join a private VC!`, iconURL: interaction.user.avatarURL() })
+                  .setAuthor({ name: `${interaction.user.username} has invited you to join a private VC!`, iconURL: interaction.user.avatarURL() })
                   .setDescription(`If you would like to join ${interaction.user} in their private VC <#${primaryVC.id}> then please hit "Accept" below.`)
                   .setColor("Gold")
                   .setFooter({ text: "This is a premium feature! Boost the server or sign up for a subscription for access to making your own Private VCs!"})

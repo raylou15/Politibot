@@ -119,11 +119,11 @@ module.exports = {
       const timeoutEmbed = new EmbedBuilder()
         .setColor("Red")
         .setAuthor({
-          name: `${target.user.tag}`,
+          name: `${target.user.username}`,
           iconURL: `${target.user.displayAvatarURL()}`,
         })
         .setDescription(
-          `**Member muted for ${duration}:**\n🔇 ${target.user} (${target.id})`
+          `**${target.user.username} has been sent to the gulag for ${duration}:**\n🔇 ${target.user} (${target.id})`
         )
         .addFields(
           { name: "**Reason:**", value: reason },

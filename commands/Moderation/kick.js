@@ -104,7 +104,7 @@ module.exports = {
     const kickEmbed = new EmbedBuilder()
       .setColor("Red")
       .setAuthor({
-        name: `${target.user.tag}`,
+        name: `${target.user.username}`,
         iconURL: `${target.user.displayAvatarURL()}`,
       })
       .setDescription(`**Member kicked:**\n🥾 ${target.user} (${target.id})`)

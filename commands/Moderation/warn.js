@@ -90,7 +90,7 @@ module.exports = {
     const warnEmbed = new EmbedBuilder()
       .setColor("Yellow")
       .setAuthor({
-        name: `${target.user.tag}`,
+        name: `${target.user.username}`,
         iconURL: `${target.user.displayAvatarURL()}`,
       })
       .setDescription(

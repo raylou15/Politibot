@@ -34,7 +34,7 @@ module.exports = {
     }
 
     const joinEmbed = new EmbedBuilder()
-    .setAuthor({name: `${member.user.tag} | ${member.id}`, iconURL: member.displayAvatarURL({dynamic: true}) })
+    .setAuthor({name: `${member.user.username} | ${member.id}`, iconURL: member.displayAvatarURL({dynamic: true}) })
     .setColor(riskColor)
     .setThumbnail(member.user.displayAvatarURL({dynamic: true, size: 256}))
     .setDescription([

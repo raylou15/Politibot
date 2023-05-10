@@ -1,8 +1,11 @@
 const { EmbedBuilder, ChannelType } = require("discord.js");
 const { execute } = require("./ready");
 const xp = require("simply-xp");
-const ms = require('ms')
-const config = require("../../config.json")
+const ms = require('ms');
+const fs = require('fs');
+const path = require('path');
+const natural = require('natural');
+const config = require("../../config.json");
 
 // OpenAI Setup
 const { Configuration, OpenAIApi } = require('openai')
@@ -136,6 +139,60 @@ module.exports = {
           message.reply({ embeds: [genocideEmbed] });
         });
       }
+
+      // Logging messages
+      // let messages = [];
+
+      // function addLog(messageObj, messageAuthor) {
+      //   messages.push(messageObj.content);
+
+      //   const filePath = path.join(__dirname, 'messagelogs', `${messageAuthor}.json`)
+
+      //   fs.writeFile(filePath, JSON.stringify(messages), (err) => {
+      //     if (err) throw err;
+      //     console.log('Message added and saved to file!')
+      //   });
+      // }
+
+      // function readJSONFile(filePath, callback) {
+      //   fs.readFile(filePath, 'utf-8', (err, data) => {
+      //     if (err) {
+      //       addLog(message, message.author.id)
+      //       return;
+      //     }
+
+      //     try {
+      //       const obj = JSON.parse(data);
+      //       callback(null, obj);
+      //     } catch (err) {
+      //       addLog(message, message.author.id);
+      //     }
+      //   });
+      // }
+
+      // function writeJSONFile(filePath, obj, callback) {
+      //   fs.writeFile(filePath, JSON.stringify(obj), callback);
+      // }
+
+      // function addStringsToFile(filePath, newStrings) {
+      //   readJSONFile(filePath, (err, data) => {
+      //     if (err) throw err;
+
+      //     data.push(...newStrings);
+
+      //     writeJSONFile(filePath, data, (err) => {
+      //       if (err) throw err;
+      //       console.log("New message data added to the file!")
+      //     });
+      //   });
+      // }
+
+      // if (message.content.length > 10) {
+      //   const filePath = path.join(__dirname, 'messagelogs', `${message.author.id}.json`)
+      //   const newStrings = [`${message.content}`]
+      //   addStringsToFile(filePath, newStrings)
+      // }
+
     }
   },
 };

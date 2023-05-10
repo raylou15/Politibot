@@ -13,7 +13,7 @@ const client = module.exports = {
         const nameArgs = mainchannel.name.split("-")
         const targetDiscrim1 = `${nameArgs[0]}#${nameArgs[1]}`
         const targetDiscrim = targetDiscrim1.replace("_", " ")
-        const targetUser = client.users.cache.find(u => u.tag === targetDiscrim)
+        const targetUser = client.users.cache.find(u => u.username === targetDiscrim)
         const ticketsChannel = interaction.guild.channels.cache.get(config.ticketParent)
 
         if (`<@${interaction.user.id}>` !== mainEmbed.fields[2].value) {
@@ -50,6 +50,10 @@ const client = module.exports = {
                 .setCustomId('closeticket')
                 .setLabel('Close')
                 .setStyle(ButtonStyle.Danger),
+            new ButtonBuilder()
+                .setCustomId('takeover')
+                .setLabel('❗')
+                .setStyle(ButtonStyle.Secondary)
         )
 
         await interaction.reply({ embeds: [claimedEmbed]})

@@ -15,7 +15,9 @@ const {
   ComponentType,
 } = require("discord.js");
 const ms = require("ms");
-
+const config = require("../../config.json");
+const mediabiasAPIKey = config.mediabiasAPIKey;
+const mediabiasAPIHost = config.mediabiasAPIHost;
 module.exports = {
   data: new ContextMenuCommandBuilder()
     .setName("Check News Source")
@@ -30,136 +32,178 @@ module.exports = {
       interaction.targetId
     );
 
-    if (targetMsg.content.includes("www") || targetMsg.content.includes("http") || targetMsg.content.includes(".com")) {
+    if (
+      targetMsg.content.includes("www") ||
+      targetMsg.content.includes("http") ||
+      targetMsg.content.includes(".com")
+    ) {
+      const firstURL = targetMsg.content;
+      const newUrl = firstURL.replace(/^(https?:\/\/)?(www\.)?/, "");
+      const dotComIndex = newUrl.indexOf(".com");
+      const sourceName = newUrl
+        .substring(newUrl.indexOf("www.") + 1, dotComIndex + 4)
+        .toLowerCase();
 
-      const urlRegex = /(https?:\/\/[^\s]+)/g;
-      const urls = targetMsg.content.match(urlRegex);
-      const url = urls[0]
-      const dotComIndex = url.indexOf(".com");
-      const sourceName = url.substring(url.indexOf(".") + 1, dotComIndex + 4).toLowerCase()
+      let ASdata = [];
+      let MBdata = [];
+      let descData = [];
 
-      const urlAS = 'https://political-bias-database.p.rapidapi.com/ASdata';
-        const optionsAS = {
-            method: 'GET',
-            headers: {
-            'X-RapidAPI-Key': '26a0987353msh7a0629e9a460e4fp1a623fjsne4eefdfd249e',
-            'X-RapidAPI-Host': 'political-bias-database.p.rapidapi.com'
-            }
-        };
-        const urlMBFC = 'https://political-bias-database.p.rapidapi.com/MBFCdata';
-        const optionsMBFC = {
-            method: 'GET',
-            headers: {
-            'X-RapidAPI-Key': '26a0987353msh7a0629e9a460e4fp1a623fjsne4eefdfd249e',
-            'X-RapidAPI-Host': 'political-bias-database.p.rapidapi.com'
-            }
-        };
+      const urlMBFC =
+        "https://political-bias-database-discord-api.p.rapidapi.com/discord/MBFCdata";
+      const optionsMBFC = {
+        method: "GET",
+        headers: {
+          "X-RapidAPI-Key": `${mediabiasAPIKey}`,
+          "X-RapidAPI-Host": `${mediabiasAPIHost}`,
+        },
+      };
+      const urlAS =
+        "https://political-bias-database-discord-api.p.rapidapi.com/discord/ASdata";
+      const optionsAS = {
+        method: "GET",
+        headers: {
+          "X-RapidAPI-Key": `${mediabiasAPIKey}`,
+          "X-RapidAPI-Host": `${mediabiasAPIHost}`,
+        },
+      };
 
-        let ASdata = [];
-        let MBdata = [];
-
-        const mediabiasEmbed = new EmbedBuilder()
+      const mediabiasEmbed = new EmbedBuilder()
         .setColor("DarkBlue")
-        .setTitle(`📰  Media Bias Ratings for ${sourceName}  📰`)
-        .setFooter({text: "All data courtesy of Media Bias/Fact Check and Allsides Media Bias Rating", iconURL: interaction.guild.iconURL()});
+        .setTitle(`📇  Media Political Bias Ratings`)
+        .setFooter({
+          text: "Credit: Allsides, Media Bias/Fact Check, and Political Bias Database (Alberto Escobar)",
+          iconURL: interaction.guild.iconURL(),
+        });
 
-        function searchArray(array, value) {
-            for (let i = 0; i < array.length; i++) {
-                if (array[i].url.includes(value)) {
-                    return array[i]
-                }
-            }
-            return null;
+      descData.push(`[Ratings for www.${sourceName}](www.${sourceName})`);
+
+      function searchArray(array, value) {
+        for (let i = 0; i < array.length; i++) {
+          if (array[i].url.includes(value)) {
+            return array[i];
+          }
+        }
+        return null;
+      }
+
+      function fetchASData() {
+        return new Promise((resolve, reject) => {
+          fetch(urlAS, optionsAS)
+            .then((res) => res.json())
+            .then((data) => {
+              ASdata = data;
+              resolve();
+            })
+            .catch((error) => reject(error));
+        });
+      }
+      function fetchMBFCData() {
+        return new Promise((resolve, reject) => {
+          fetch(urlMBFC, optionsMBFC)
+            .then((res) => res.json())
+            .then((data) => {
+              MBdata = data;
+              resolve();
+            })
+            .catch((error) => reject(error));
+        });
+      }
+
+      fetchASData().then(() => {
+        const ASResult = searchArray(ASdata, sourceName);
+        console.log(ASResult);
+        if (ASResult) {
+          console.log("Allsides data found!");
+          descData.push(
+            `\n🔹 All Sides Bias Rating: ` +
+              "`" +
+              ` ${ASResult.bias} bias ` +
+              "`"
+          );
+        } else {
+          console.log("No Allsides data found.");
+          descData.push(`🔸 No All Sides data was found.`);
         }
 
+        fetchMBFCData().then(() => {
+          const MBFCResult = searchArray(MBdata, sourceName);
+          console.log(MBFCResult);
+          if (MBFCResult) {
+            console.log("Media Bias/Fact Check data found!");
+            console.log(MBFCResult);
+            descData.push(
+              `\n🔹 MB/FC Bias Rating: ` +
+                "`" +
+                ` ${MBFCResult.bias} bias ` +
+                "`"
+            );
+            descData.push(
+              `🔹 MB/FC Factuality Rating: ` +
+                "`" +
+                ` ${MBFCResult.factual} factuality ` +
+                "`"
+            );
+            descData.push(
+              `🔹 MB/FC Credibility Rating: ` +
+                "`" +
+                ` ${MBFCResult.credibility} ` +
+                "`"
+            );
+          } else {
+            console.log("No Media Bias/Fact Check data found.");
+            descData.push(`🔸 No Media Bias/Fact Check data was found.`);
+          }
 
-        function fetchASData() {
-            return new Promise((resolve, reject) => {
-                fetch(urlAS, optionsAS)
-                    .then(res => res.json())
-                    .then(data => {
-                        ASdata = data;
-                        resolve();
-                    })
-                    .catch(error => reject(error));
-            })
-        }
-        function fetchMBFCData() {
-            return new Promise((resolve, reject) => {
-                fetch(urlMBFC, optionsMBFC)
-                    .then(res => res.json())
-                    .then(data => {
-                        MBdata = data;
-                        resolve();
-                    })
-                    .catch(error => reject(error));
-            })
-        }
+          if (ASResult && MBFCResult) {
+            descData.push(
+              `\n👤 [All Sides Profile](${ASResult.allsidesurl})  |  [Media Bias/Fact Check Profile](${MBFCResult.profile})`
+            );
+            descData.push(
+              `\n❓ If you're interested in learning more, go to the profiles linked above or hit "More Info" below. Also, don't call this tool not credible just because you disagree with the ratings! Learn more before you debate it!`
+            );
+          } else if (ASResult && !MBFCResult) {
+            descData.push(`\n👤 [All Sides Profile](${ASResult.allsidesurl})`);
+            descData.push(
+              `\n❓ If you're interested in learning more about why there are no Media Bias/Fact Check results, hit "More Info" below. Also, don't call this tool not credible just because you disagree with the ratings! Learn more before you debate it!`
+            );
+          } else if (!ASResult && MBFCResult) {
+            descData.push(
+              `\n👤 [Media Bias/Fact Check Profile](${MBFCResult.profile})`
+            );
+            descData.push(
+              `\n❓ If you're interested in learning more about why there are no All Sides results, hit "More Info" below. Also, don't call this tool not credible just because you disagree with the ratings! Learn more before you debate it!`
+            );
+          } else {
+            descData.push(
+              `No data was found on All Sides or Media Bias/Fact Check. Please double check your source's URL that you provided. If you input data correctly, and still do not receive any results, please click the "More Info" button below.`
+            );
+          }
 
-        fetchASData()
-        .then(() => {
-            const ASResult = searchArray(ASdata, sourceName)
-            console.log(ASResult)
-            if (ASResult) {
-                console.log("Allsides data found!")
-                mediabiasEmbed.addFields(
-                    {
-                        name: "AllSides Media Bias Ratings:",
-                        value: `Bias Rating: ${ASResult.bias} \nAgree/Disagree Vote: ${ASResult.agreement}/${ASResult.disagreement} \nRating Confidence: ${ASResult.confidence} \n[Click to go to profile](${ASResult.allsidesurl})`,
-                        inline: true
-                    }
-                );
-            } else {
-                console.log("No Allsides data found.")
-                mediabiasEmbed.addFields(
-                    {
-                        name: "AllSides Media Bias Ratings:",
-                        value: "❗ No data found on Allsides. You either entered an incorrect URL, or this is an extremely obscure (and thus unreliable and unreputable) source, or it's simply not covered.",
-                        inline: true
-                    }
-                );
-            }
+          const buttonRow = new ActionRowBuilder().addComponents(
+            new ButtonBuilder()
+              .setCustomId("mediabiasInfo")
+              .setLabel("❓ More Info")
+              .setStyle(ButtonStyle.Secondary),
+            new ButtonBuilder()
+              .setCustomId("chromeextension")
+              .setLabel("🌐 Chrome Extension")
+              .setStyle(ButtonStyle.Secondary)
+          );
 
-            fetchMBFCData()
-            .then(() => {
-                const MBFCResult = searchArray(MBdata, sourceName)
-                console.log(MBFCResult)
-                if (MBFCResult) {
-                    console.log("Media Bias/Fact Check data found!")
-                    console.log(MBFCResult)
-                    mediabiasEmbed.addFields(
-                        {
-                            name: "Media Bias/Fact Check Ratings:",
-                            value: `Bias Rating: ${MBFCResult.bias} \nFactuality Rating: ${MBFCResult.factual} \nCredibility: ${MBFCResult.credibility} \n[Click to go to profile](${MBFCResult.profile})`,
-                            inline: true
-                        }
-                    );
-                } else {
-                    console.log("No Media Bias/Fact Check data found.")
-                    mediabiasEmbed.addFields(
-                        {
-                            name: "Media Bias/Fact Check Ratings:",
-                            value: "❗ No data found on Media Bias/Fact Check. You either entered an incorrect URL, or this is an extremely obscure (and thus unreliable and unreputable) source, or it's simply not covered.",
-                            inline: true
-                        }
-                    );
-                }
+          mediabiasEmbed.setDescription(descData.join(`\n`));
 
-                mediabiasEmbed.addFields(
-                    {
-                        name: "⚠️  What does this even mean?",
-                        value: "These ratings try to determine the general political leanings and credibility of news sources, and are a great metric to use for that purpose. If you're looking for more information, you're encouraged to go to the linked profiles!"
-                    }
-                )
-
-                interaction.reply({ embeds: [mediabiasEmbed] })
-
-            })
-        })
-
+          interaction.reply({
+            embeds: [mediabiasEmbed],
+            components: [buttonRow],
+          });
+        });
+      });
     } else {
-      return interaction.reply({ ephemeral: true, content: "No valid link to a source was found. Try searching manually with `/mediabiascheck`. If results show up, please open a Bot Support ticket under <#999439440273473657> and let us know." })
+      return interaction.reply({
+        ephemeral: true,
+        content:
+          "No valid link to a source was found. Try searching manually with `/mediabiascheck`. If results show up, please open a Bot Support ticket under <#999439440273473657> and let us know.",
+      });
     }
-  
   },
 };

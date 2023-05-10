@@ -12,7 +12,7 @@ module.exports = {
 
       var msgUpdate = new EmbedBuilder()
         .setAuthor({
-          name: newMessage.author.tag,
+          name: newMessage.author.username,
           iconURL: newMessage.author.avatarURL(),
         })
         .setFooter({ text: `id: ` + newMessage.author.id })
@@ -30,7 +30,7 @@ module.exports = {
       logChannel.send({ embeds: [msgUpdate] }).catch(async (err) => {
         console.log(err);
         var msgUpdate = new MessageEmbed()
-          .setAuthor(newMessage.author.tag, newMessage.author.avatarURL())
+          .setAuthor(newMessage.author.username, newMessage.author.avatarURL())
           .setFooter(`id: ` + newMessage.author.id)
           .setTimestamp()
           .addField(

@@ -1,4 +1,4 @@
-const { EmbedBuilder, ChannelType } = require("discord.js");
+const { EmbedBuilder, ChannelType, Attachment } = require("discord.js");
 const { execute } = require("../mainEvents/ready");
 
 module.exports = {
@@ -9,7 +9,7 @@ module.exports = {
     const user = message.author
     if (!message.guild) {
         if (!message.author.bot) {
-            const memberDiscriminator1 = user.tag.replace("#", "-")
+            const memberDiscriminator1 = user.username.replace("#", "-")
             const memberDiscriminator = memberDiscriminator1.replace(" ", "_")
             const discrimLength = memberDiscriminator.length
 
@@ -24,14 +24,26 @@ module.exports = {
                 console.log(ticketsArray[ticketsArray.length - 1])
                 if (ticketsArray[ticketsArray.length - 1].archived === false) { // Active thread found!
                     const currentChannel = ticketsArray[ticketsArray.length - 1]
+
+                    if (message.attachments.size > 0) {
+                        console.log(message.attachments)
+                    }
+
+                    let msgContent = message.content.length > 0 ? message.content : "*[ No Message Content ]*"
+
                     const msgEmbed = new EmbedBuilder()
                     .setColor("Green")
-                    .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({ dynamic: true }) })
-                    .setDescription(message.content)
-                    .setFooter({ text: message.author.id })
+                    .setAuthor({ name: message.author.username, iconURL: message.author.displayAvatarURL({ dynamic: true }) })
+                    .setDescription(msgContent)
+                    .setFooter({ text: `User ID: ` + message.author.id })
                     .setTimestamp();
 
                     currentChannel.send({ embeds: [msgEmbed] })
+                    if (message.attachments.size > 0) {
+                        message.attachments.forEach(attachment => {
+                            currentChannel.send(`${attachment.url}`)
+                        })
+                    } 
                     message.react('<:tickmark:965445812123500665>')
 
                 } else { // No tickets found
@@ -60,9 +72,10 @@ module.exports = {
         } else return
     }  else if (message.channel.parent === ticketsChannel && !message.author.bot) { // Reply functionality.
         const nameArgs = message.channel.name.split("-")
-        const targetDiscrim1 = `${nameArgs[0]}#${nameArgs[1]}`
+        const targetDiscrim1 = `${nameArgs[0]}`
         const targetDiscrim = targetDiscrim1.replace("_", " ")
-        const targetUser = client.users.cache.find(u => u.tag === targetDiscrim)
+        console.log(targetDiscrim)
+        const targetUser = client.users.cache.find(u => u.username === targetDiscrim)
 
         let staffID = message.author.id.slice(-5) // Setting up aliases for staff.
 
@@ -79,11 +92,13 @@ module.exports = {
         } else {
             chosenTag = "Other"
         }
+
+        let msgContent = message.content.length > 0 ? message.content : "*[ No Message Content ]*"
        
         const msgEmbed = new EmbedBuilder()
         .setColor("Green")
         .setAuthor({ name: "Operation Politics Staff Response", iconURL: message.guild.iconURL() })
-        .setDescription(`**Response:** ${message.content}`)
+        .setDescription(`**Response:** ${msgContent}`)
         .setFooter({ text: `Ticket: ${message.channel.name} • Staff ID: ${staffID}` })
         .setTimestamp();
 
@@ -95,6 +110,18 @@ module.exports = {
                 "I couldn't DM this user since they do not accept DMs from server bots/members. It's recommended that you close this ticket now.",
             });
         });
+        if (message.attachments.size > 0) {
+            message.attachments.forEach(attachment => {
+                targetUser.send(`${attachment.url}`).catch(async (err) => {
+                    console.log(err);
+                    message.react('<:crossmark:965445798630416434>')
+                    return logChannel.send({
+                        content:
+                        "I couldn't DM this user since they do not accept DMs from server bots/members. It's recommended that you close this ticket now.",
+                    });
+                })
+            })
+        } 
 
         message.react('<:tickmark:965445812123500665>')
 

@@ -7,7 +7,7 @@ module.exports = {
     if (message.channel.guild && message.author) {
       var msgDelete = new EmbedBuilder()
       .setAuthor({
-        name: message.author.tag,
+        name: message.author.username,
         iconURL: message.author.avatarURL(),
       })
       .setFooter({ text: `id: ` + message.author.id })
@@ -30,7 +30,7 @@ module.exports = {
         console.log(err);
         var msgDelete = new EmbedBuilder()
           .setAuthor({
-            name: message.author.tag,
+            name: message.author.username,
             iconURL: message.author.avatarURL(),
           })
           .setFooter({ text: `id: ` + message.author.id })

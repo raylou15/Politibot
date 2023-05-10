@@ -48,17 +48,17 @@ module.exports = {
       if (!targetedUser) {
         targetUsername = `LEFT SERVER (${element.TargetID})`;
       } else {
-        targetUsername = targetedUser.user.tag;
+        targetUsername = targetedUser.user.username;
       }
       
       if (element.InfractionType === "Mute") {
         logDataEmbed.addFields({
-          name: `${targetUsername} | ${element.InfractionType} issued by ${issuerUser.user.tag} for ${element.Duration}`,
+          name: `${targetUsername} | ${element.InfractionType} issued by ${issuerUser.user.username} for ${element.Duration}`,
           value: `${element.Date}\n**Reason:** ${element.Reason}\n**Case ID:** ${element.CaseID}\n━━━━━━━━━━━━━━━`,
         });
       } else {
         logDataEmbed.addFields({
-          name: `${targetUsername} | ${element.InfractionType} issued by ${issuerUser.user.tag}`,
+          name: `${targetUsername} | ${element.InfractionType} issued by ${issuerUser.user.username}`,
           value: `${element.Date}\n**Reason:** ${element.Reason}\n**Case ID:** ${element.CaseID}\n━━━━━━━━━━━━━━━`,
         });
       }
