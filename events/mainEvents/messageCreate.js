@@ -7,12 +7,6 @@ const path = require('path');
 const natural = require('natural');
 const config = require("../../config.json");
 
-// OpenAI Setup
-const { Configuration, OpenAIApi } = require('openai')
-const configuration = new Configuration({
-  apiKey: config.openAIAPI
-});
-
 module.exports = {
   name: "messageCreate",
   async execute(message, client) {
