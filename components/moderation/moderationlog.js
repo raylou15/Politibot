@@ -3,63 +3,67 @@ const {
   ChatInputCommandInteraction,
   PermissionFlagsBits,
   EmbedBuilder,
+  ButtonComponent,
+  Component,
+  SelectMenuBuilder,
   ActionRowBuilder,
   ButtonBuilder,
   ButtonStyle,
+  SelectMenuInteraction,
+  ButtonInteraction,
+  ComponentType,
+  Embed,
 } = require("discord.js");
 const infractionData = require("../../schemas/infractions");
 const ms = require("ms");
-
 module.exports = {
-  data: new SlashCommandBuilder()
-    .setName("logs")
-    .setDescription("View logs of a given user.")
-    .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers)
-    .setDMPermission(false)
-    .addUserOption((options) =>
-      options
-        .setName("target")
-        .setDescription("View the logs of which user?")
-        .setRequired(true)
-    ),
+  name: "moderationlog",
+  description: "Notes",
   /**
    *
-   * @param {ChatInputCommandInteraction} interaction
+   * @param {ButtonInteraction} interaction
    */
-  async execute(interaction, client) {
-    const target = interaction.options.getUser("target");
+  async execute(interaction) {
+    const embed1 = interaction.message.embeds[0];
+
+    const footertext = embed1.footer.text.split(" ");
+
+    const authortext = embed1.author.name.replace(/[()]/g, "").split(" ");
+
+    const target1 = authortext[1];
 
     let targetAvatar;
     let targetUsername;
     let logData = [];
-    logData = await infractionData.find({ TargetID: target.id });
+    logData = await infractionData.find({ TargetID: target1 });
+
+    const target = interaction.guild.members.cache.get(target1);
 
     if (target) {
       targetUsername = `${target.username} (${target.id})`;
       targetAvatar = target.displayAvatarURL();
     } else {
-      targetUsername = `USER LEFT SERVER ${target.id}`;
-      targetAvatar =
-        "https://cdn.pixabay.com/photo/2013/07/12/13/50/prohibited-147408__340.png";
+      targetUsername = `${authortext[0]} (${target1})`;
+      targetAvatar = embed1.author.iconURL;
     }
 
     let logDataEmbed = new EmbedBuilder()
       .setAuthor({ name: targetUsername, iconURL: targetAvatar })
       .setColor("White")
       .setTitle("Moderation Log History")
-      .setFooter({ text: `Requested by ${interaction.user.username}`})
+      .setFooter({ text: `Requested by ${interaction.user.username}` })
       .setTimestamp();
 
     const naviButtons = new ActionRowBuilder().addComponents(
       new ButtonBuilder()
-      .setCustomId('moderationlog')
-      .setLabel('Moderation')
-      .setStyle(ButtonStyle.Primary),
+        .setCustomId("moderationlog")
+        .setLabel("Moderation")
+        .setStyle(ButtonStyle.Primary),
       new ButtonBuilder()
-      .setCustomId('notes')
-      .setLabel('Incidents')
-      .setStyle(ButtonStyle.Secondary)
-    )
+        .setCustomId("notes")
+        .setLabel("Incidents")
+        .setStyle(ButtonStyle.Secondary)
+    );
 
     if (!logData) {
       return interaction.reply("There are no logs to show for this user!");
@@ -93,14 +97,9 @@ module.exports = {
             value: `${element.Date}\n**Reason:** ${element.Reason}\n**Case ID:** ${element.CaseID}\n━━━━━━━━━━━━━━━`,
           });
         }
-        // } else {
-        //   logDataEmbed.addFields({
-        //     name: `${element.InfractionType} issued by ${issuerUser.user.username}`,
-        //     value: `${element.Date}\n**Reason:** ${element.Reason}\n**Case ID:** ${element.CaseID}\n━━━━━━━━━━━━━━━`,
-        //   });
-        // }
       });
-      return interaction.reply({ embeds: [logDataEmbed], components: [naviButtons] });
     }
+
+    interaction.update({ embeds: [logDataEmbed], components: [naviButtons] });
   },
 };

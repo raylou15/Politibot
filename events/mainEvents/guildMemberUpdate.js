@@ -12,7 +12,7 @@ module.exports = {
       .setColor("Blue")
       .setAuthor({
         name: newMember.user.username,
-        iconURL: newMember.user.avatarURL(),
+        iconURL: newMember.user.displayAvatarURL({dynamic: true}),
       })
       .setFooter({ text: `id: ${newMember.id}` })
       .setTimestamp();

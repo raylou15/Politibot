@@ -8,7 +8,7 @@ module.exports = {
       var msgDelete = new EmbedBuilder()
       .setAuthor({
         name: message.author.username,
-        iconURL: message.author.avatarURL(),
+        iconURL: message.author.displayAvatarURL({dynamic: true}),
       })
       .setFooter({ text: `id: ` + message.author.id })
       .setTimestamp()
@@ -31,7 +31,7 @@ module.exports = {
         var msgDelete = new EmbedBuilder()
           .setAuthor({
             name: message.author.username,
-            iconURL: message.author.avatarURL(),
+            iconURL: message.author.displayAvatarURL({dynamic: true}),
           })
           .setFooter({ text: `id: ` + message.author.id })
           .setTimestamp()

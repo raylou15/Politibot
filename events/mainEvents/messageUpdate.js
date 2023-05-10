@@ -13,7 +13,7 @@ module.exports = {
       var msgUpdate = new EmbedBuilder()
         .setAuthor({
           name: newMessage.author.username,
-          iconURL: newMessage.author.avatarURL(),
+          iconURL: newMessage.author.displayAvatarURL({dynamic: true}),
         })
         .setFooter({ text: `id: ` + newMessage.author.id })
         .setTimestamp()

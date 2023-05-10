@@ -72,12 +72,12 @@ module.exports = {
           console.log("User is still in server!");
           targetUser = interaction.guild.members.cache.get(logData.TargetID);
           targetUserTag = targetUser.user.username;
-          targetUserAvatar = targetUser.user.displayAvatarURL();
+          targetUserAvatar = targetUser.user.displayAvatarURL({dynamic: true});
         } else {
           console.log("User is no longer in server...");
           targetUser = "USER LEFT SERVER";
           targetUserTag = " "
-          targetUserAvatar = client.user.displayAvatarURL()
+          targetUserAvatar = client.user.displayAvatarURL({dynamic: true})
         }
         if (interaction.guild.members.cache.get(logData.IssuerID)) {
           console.log("User is still in server!");
@@ -119,7 +119,7 @@ module.exports = {
           .setFooter({
             text:
               "Action Issued: " + logData.Date + ` by ${issuerUserTag}`,
-            iconURL: client.user.avatarURL(),
+            iconURL: client.user.displayAvatarURL({dynamic: true}),
           });
 
         interaction.reply({ embeds: [logEmbed] });
@@ -187,7 +187,7 @@ module.exports = {
         .setColor("Red")
         .setAuthor({
           name: `${targetUser.user.username}`,
-          iconURL: `${targetUser.user.avatarURL()}`,
+          iconURL: `${targetUser.user.displayAvatarURL({dynamic: true})}`,
         })
         .setDescription(typeInfo)
         .addFields(
@@ -196,7 +196,7 @@ module.exports = {
         )
         .setFooter({
           text: "Action Issued: " + logData.Date + ` by ${issuerUser.user.username}`,
-          iconURL: client.user.avatarURL(),
+          iconURL: client.user.displayAvatarURL({dynamic: true}),
         });
 
       interaction.reply({ content: "Case Updated:", embeds: [editEmbed] });
