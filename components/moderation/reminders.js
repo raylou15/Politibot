@@ -17,8 +17,8 @@ const {
 const infractionData = require("../../schemas/infractions");
 const ms = require("ms");
 module.exports = {
-  name: "notes",
-  description: "Notes",
+  name: "reminders",
+  description: "Reminders",
   /**
    *
    * @param {ButtonInteraction} interaction
@@ -53,28 +53,28 @@ module.exports = {
     let logDataEmbed = new EmbedBuilder()
       .setAuthor({ name: targetUsername, iconURL: targetAvatar })
       .setColor("White")
-      .setTitle("Incident Log History")
+      .setTitle("Rule Reminder Log History")
       .setFooter({ text: `Requested by ${interaction.user.username}` })
       .setTimestamp();
 
-      const naviButtons = new ActionRowBuilder().addComponents(
-        new ButtonBuilder()
-          .setCustomId("moduserinfo")
-          .setLabel("User Info")
-          .setStyle(ButtonStyle.Secondary),
-        new ButtonBuilder()
-          .setCustomId("moderationlog")
-          .setLabel("Moderation")
-          .setStyle(ButtonStyle.Secondary),
-        new ButtonBuilder()
-          .setCustomId("notes")
-          .setLabel("Incidents")
-          .setStyle(ButtonStyle.Primary),
-        new ButtonBuilder()
-          .setCustomId("reminders")
-          .setLabel("Reminders")
-          .setStyle(ButtonStyle.Secondary)
-      );
+    const naviButtons = new ActionRowBuilder().addComponents(
+      new ButtonBuilder()
+        .setCustomId("moduserinfo")
+        .setLabel("User Info")
+        .setStyle(ButtonStyle.Secondary),
+      new ButtonBuilder()
+        .setCustomId("moderationlog")
+        .setLabel("Moderation")
+        .setStyle(ButtonStyle.Secondary),
+      new ButtonBuilder()
+        .setCustomId("notes")
+        .setLabel("Incidents")
+        .setStyle(ButtonStyle.Secondary),
+      new ButtonBuilder()
+        .setCustomId("reminders")
+        .setLabel("Reminders")
+        .setStyle(ButtonStyle.Primary)
+    );
 
     if (!logData) {
       return interaction.reply("There are no logs to show for this user!");
@@ -82,10 +82,10 @@ module.exports = {
       let issuerUser;
       logData.forEach((element) => {
         issuerUser = interaction.guild.members.cache.get(element.IssuerID);
-        if (element.InfractionType === "Incident") {
+        if (element.InfractionType === "Rule Reminder") {
           logDataEmbed.addFields({
-            name: `🚫 ${element.InfractionType} issued by ${issuerUser.user.username}`,
-            value: `${element.Date}\n**Reason:** ${element.Reason}\n**Case ID:** ${element.CaseID}\n━━━━━━━━━━━━━━━`,
+            name: `📋 ${element.InfractionType} issued by ${issuerUser.user.username}`,
+            value: `${element.Date}\n${element.Reason}\n━━━━━━━━━━━━━━━`,
           });
         }
       });

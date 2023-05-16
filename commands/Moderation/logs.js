@@ -35,7 +35,7 @@ module.exports = {
     logData = await infractionData.find({ TargetID: target.id });
 
     if (target) {
-      targetUsername = `${target.username} (${target.id})`;
+      targetUsername = `${target.username.replace(/\s+/g, "_")} (${target.id})`;
       targetAvatar = target.displayAvatarURL();
     } else {
       targetUsername = `USER LEFT SERVER ${target.id}`;
@@ -50,16 +50,24 @@ module.exports = {
       .setFooter({ text: `Requested by ${interaction.user.username}`})
       .setTimestamp();
 
-    const naviButtons = new ActionRowBuilder().addComponents(
-      new ButtonBuilder()
-      .setCustomId('moderationlog')
-      .setLabel('Moderation')
-      .setStyle(ButtonStyle.Primary),
-      new ButtonBuilder()
-      .setCustomId('notes')
-      .setLabel('Incidents')
-      .setStyle(ButtonStyle.Secondary)
-    )
+      const naviButtons = new ActionRowBuilder().addComponents(
+        new ButtonBuilder()
+          .setCustomId("moduserinfo")
+          .setLabel("User Info")
+          .setStyle(ButtonStyle.Secondary),
+        new ButtonBuilder()
+          .setCustomId("moderationlog")
+          .setLabel("Moderation")
+          .setStyle(ButtonStyle.Primary),
+        new ButtonBuilder()
+          .setCustomId("notes")
+          .setLabel("Incidents")
+          .setStyle(ButtonStyle.Secondary),
+        new ButtonBuilder()
+          .setCustomId("reminders")
+          .setLabel("Reminders")
+          .setStyle(ButtonStyle.Secondary)
+      );
 
     if (!logData) {
       return interaction.reply("There are no logs to show for this user!");

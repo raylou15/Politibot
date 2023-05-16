@@ -11,7 +11,7 @@ const client = module.exports = {
         const mainchannel = interaction.channel
         const mainEmbed = interaction.message.embeds[0]
         const nameArgs = mainchannel.name.split("-")
-        const targetDiscrim1 = `${nameArgs[0]}#${nameArgs[1]}`
+        const targetDiscrim1 = `${nameArgs[0]}`
         const targetDiscrim = targetDiscrim1.replace("_", " ")
         const targetUser = client.users.cache.find(u => u.username === targetDiscrim)
         const ticketsChannel = interaction.guild.channels.cache.get(config.ticketParent)
@@ -54,7 +54,6 @@ const client = module.exports = {
         )
 
         await interaction.reply({ embeds: [claimedEmbed]})
-        await targetUser.send({ embeds: [claimedEmbed2] })
         await interaction.message.edit({ embeds: [newEmbed], components: [claimedButtons] })
         
         const tagArray = [];
@@ -69,6 +68,10 @@ const client = module.exports = {
         })
 
         mainchannel.setAppliedTags(tagArray)
+
+        console.log(targetUser)
+
+        await targetUser.send({ embeds: [claimedEmbed2] })
 
     },
   };

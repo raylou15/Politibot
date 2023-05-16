@@ -99,12 +99,12 @@ const client = (module.exports = {
         .setColor("Green")
         .setTitle("New Ticket Opened")
         .setAuthor({ name: interaction.user.username })
-        .setDescription(`A new ticket has been opened by ${interaction.user}`)
+        .setDescription(`A moderator has opened a ticket to contact ${targetUser}`)
         .setFields([
           { name: "Category", value: "Moderation" },
           {
             name: "Reason:",
-            value: "First contact originated by a Moderator.",
+            value: `First contact originated by ${interaction.user}.`,
             inline: true,
           },
           { name: "Claimed by:", value: "N/A", inline: true },
@@ -119,7 +119,11 @@ const client = (module.exports = {
         new ButtonBuilder()
           .setCustomId("closeticket")
           .setLabel("Close")
-          .setStyle(ButtonStyle.Danger)
+          .setStyle(ButtonStyle.Danger),
+        new ButtonBuilder()
+          .setCustomId('takeover')
+          .setLabel('❗')
+          .setStyle(ButtonStyle.Secondary)
       );
 
       const memberDiscriminator1 = targetUser.username.replace("#", "-");
@@ -209,8 +213,8 @@ const client = (module.exports = {
     // Close Command
     if (interaction.options.getSubcommand() === "close") {
       const nameArgs = interaction.channel.name.split("-");
-      const targetDiscrim1 = `${nameArgs[0]}#${nameArgs[1]}`;
-      const targetDiscrim = targetDiscrim1.replace("_", " ");
+      const targetDiscrim1 = `${nameArgs[0]}`
+      const targetDiscrim = targetDiscrim1.replace("_", " ")
       const targetUser = client.users.cache.find(
         (u) => u.username === targetDiscrim
       );

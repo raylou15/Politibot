@@ -115,7 +115,7 @@ module.exports = {
       new ButtonBuilder()
         .setLabel("Appeal Server")
         .setStyle(ButtonStyle.Link)
-        .setURL("https://discord.gg/zSDNPVm6")
+        .setURL("https://discord.gg/fUYy57GRqT")
     );
 
     const logChannel = interaction.guild.channels.cache.get(

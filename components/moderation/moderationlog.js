@@ -30,6 +30,8 @@ module.exports = {
 
     const authortext = embed1.author.name.replace(/[()]/g, "").split(" ");
 
+    console.log(authortext) 
+
     const target1 = authortext[1];
 
     let targetAvatar;
@@ -40,7 +42,7 @@ module.exports = {
     const target = interaction.guild.members.cache.get(target1);
 
     if (target) {
-      targetUsername = `${target.username} (${target.id})`;
+      targetUsername = `${target.user.username.replace(/\s+/g, "_")} (${target.id})`;
       targetAvatar = target.displayAvatarURL();
     } else {
       targetUsername = `${authortext[0]} (${target1})`;
@@ -54,16 +56,24 @@ module.exports = {
       .setFooter({ text: `Requested by ${interaction.user.username}` })
       .setTimestamp();
 
-    const naviButtons = new ActionRowBuilder().addComponents(
-      new ButtonBuilder()
-        .setCustomId("moderationlog")
-        .setLabel("Moderation")
-        .setStyle(ButtonStyle.Primary),
-      new ButtonBuilder()
-        .setCustomId("notes")
-        .setLabel("Incidents")
-        .setStyle(ButtonStyle.Secondary)
-    );
+      const naviButtons = new ActionRowBuilder().addComponents(
+        new ButtonBuilder()
+          .setCustomId("moduserinfo")
+          .setLabel("User Info")
+          .setStyle(ButtonStyle.Secondary),
+        new ButtonBuilder()
+          .setCustomId("moderationlog")
+          .setLabel("Moderation")
+          .setStyle(ButtonStyle.Primary),
+        new ButtonBuilder()
+          .setCustomId("notes")
+          .setLabel("Incidents")
+          .setStyle(ButtonStyle.Secondary),
+        new ButtonBuilder()
+          .setCustomId("reminders")
+          .setLabel("Reminders")
+          .setStyle(ButtonStyle.Secondary)
+      );
 
     if (!logData) {
       return interaction.reply("There are no logs to show for this user!");
