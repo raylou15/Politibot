@@ -34,6 +34,10 @@ module.exports = {
     const target = options.getMember("target");
     const reason = options.getString("reason");
 
+    if (reason.length > 1000) {
+      return interaction.reply({ephemeral: true, content: `Your log must be under 1000 characters. You are currently at ${reason.length}`})
+    }
+
     //This collects all errors in an interaction to relay back to the user at the same time.
     const errorsArray = [];
     const errorsEmbed = new EmbedBuilder()

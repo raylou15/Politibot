@@ -45,6 +45,10 @@ module.exports = {
     const reason = options.getString("reason");
     const deletemsgs = options.getBoolean("delete-messages");
 
+    if (reason.length > 1000) {
+      return interaction.reply({ephemeral: true, content: `Your log must be under 1000 characters. You are currently at ${reason.length}`})
+    }
+
     //Detect delete messages status
     let deletemsgNum = 0;
     if (deletemsgs) {

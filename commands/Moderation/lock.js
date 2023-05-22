@@ -12,11 +12,25 @@ module.exports = {
     .setDescription("Lock a channel.")
     .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers)
     .setDMPermission(false)
-    .addChannelOption((options) =>
-      options
+    .addSubcommand(subcommand => subcommand
+      .setName("start")
+      .setDescription("Lock a channel.")
+      .addChannelOption((options) =>
+        options
         .setName("channel")
         .setDescription("Provide a channel!")
         .setRequired(true)
+      )
+    )
+    .addSubcommand(subcommand => subcommand
+      .setName("lift")
+      .setDescription("Lift a lock a channel.")
+      .addChannelOption((options) =>
+        options
+        .setName("channel")
+        .setDescription("Provide a channel!")
+        .setRequired(true)
+      )
     ),
   /**
    *
@@ -24,13 +38,8 @@ module.exports = {
    */
   async execute(interaction, client) {
     const channel = interaction.options.getChannel("channel");
-    if (!channel) {
-      return interaction.reply({
-        content: "There is no channel selected.",
-        ephemeral: true,
-      });
-    } else {
 
+    if (interaction.options.getSubcommand() === "start") {
       channel.permissionOverwrites.edit(channel.guild.roles.everyone, {
         SendMessages: false,
       });
@@ -47,5 +56,21 @@ module.exports = {
         ephemeral: true,
       });
     }
+
+    if (interaction.options.getSubcommand() === "lift") {
+      channel.lockPermissions();
+
+      const lockEmbed = new EmbedBuilder()
+      .setColor("Green")
+      .setTitle("🔓  Channel Unlocked")
+      .setDescription("This channel has been unlocked. Please behave, stay civil, and keep in mind our <#775838975755681842> when discussing and debating.")
+
+      channel.send({ embeds: [lockEmbed] });
+      interaction.reply({
+        content: `${channel} has been unlocked.`,
+        ephemeral: true,
+      });
+    }
+
   },
 };

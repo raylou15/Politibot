@@ -35,10 +35,6 @@ module.exports = {
 
         const pinmsg = await typing.channel.messages.fetchPinned()
         const message = pinmsg.first()
-        const embed = message.embeds[0]
-
-        const regex = /<@(\d+)>/;
-        const userIDmatch = embed.description.match(regex);
 
         const banmembers = banserver.members.fetch()
         

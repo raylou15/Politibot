@@ -16,7 +16,9 @@ module.exports = {
 
       //News
       if (message.channel.type === ChannelType.GuildAnnouncement) {
-        message.crosspost().catch(console.error);
+        if (message.crosspostable) {
+          message.crosspost().catch(console.error);
+        }
       }
 
       if (message.author.bot) {
@@ -116,22 +118,6 @@ module.exports = {
         message.content.toLowerCase().includes("genital")  
       ) {
         message.reply(":clown:");
-      }
-
-      // Genocide
-      if (
-        message.content.toLowerCase().includes("genocide") ||
-        message.content.toLowerCase().includes("holodomor") ||
-        message.content.toLowerCase().includes("holodomr")
-      ) {
-        const genocideEmbed = new EmbedBuilder()
-          .setColor("White")
-          .setDescription(
-            `Hey! We have frequent issues with discussions about genocides in this server, especially and particularly relating to classifying certain genocides as genocides. Please keep in mind that if you violate our rules in regards to genocide denial, it *will* carry a harsher punishment. We're not going to argue over it with you, either. **Our best recommendation is to drop the subject and move on.**`
-          );
-        message.author.send({ embeds: [genocideEmbed] }).catch((err) => {
-          message.reply({ embeds: [genocideEmbed] });
-        });
       }
 
       // Logging messages

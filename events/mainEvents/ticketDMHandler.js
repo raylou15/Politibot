@@ -89,7 +89,7 @@ module.exports = {
             targetUser = client.users.cache.find(u => u.username === nameArgs[0])
 
         } else {
-            const pinmsg = await typing.channel.messages.fetchPinned()
+            const pinmsg = await message.channel.messages.fetchPinned()
             const message = pinmsg.first()
             const embed = message.embeds[0]
             const regex = /<@(\d+)>/;

@@ -11,7 +11,15 @@ module.exports = {
     .setName("lockdown")
     .setDescription("Locks a bunch of channels.")
     .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers)
-    .setDMPermission(false),
+    .setDMPermission(false)
+    .addSubcommand(subcommand => subcommand
+      .setName("start")
+      .setDescription("Start a lockdown in the server")
+    )
+    .addSubcommand(subcommand => subcommand
+      .setName("lift")
+      .setDescription("Lift a lockdown in the server")
+    ),
   /**
    *
    * @param {ChatInputCommandInteraction} interaction
@@ -31,24 +39,48 @@ module.exports = {
       "775559863522164737"
     );
 
-    discCat.children.cache.forEach(channel => {
-      if (channel.id !== "1018396794834661508" && channel.id !== "965271666684985454" && channel.id !== "760548421790203934") {
-        channel.send({ embeds: [lockEmbed] })
-      }
-    })
-    commCat.children.cache.forEach(channel => {
-      if (channel.id !== "1018396794834661508" && channel.id !== "965271666684985454" && channel.id !== "760548421790203934") {
-        channel.send({ embeds: [lockEmbed] })
-      }
-    })
+    if (interaction.options.getSubcommand() === "start") {
+      discCat.children.cache.forEach(channel => {
+        if (channel.id !== "1018396794834661508" && channel.id !== "965271666684985454" && channel.id !== "760548421790203934") {
+          channel.send({ embeds: [lockEmbed] })
+        }
+      })
+      commCat.children.cache.forEach(channel => {
+        if (channel.id !== "1018396794834661508" && channel.id !== "965271666684985454" && channel.id !== "760548421790203934") {
+          channel.send({ embeds: [lockEmbed] })
+        }
+      })
+  
+      await discCat.permissionOverwrites.create(discCat.guild.roles.everyone, {
+        SendMessages: false,
+      });
+      await commCat.permissionOverwrites.create(commCat.guild.roles.everyone, {
+        SendMessages: false,
+      });
+  
+      interaction.reply({ content: "Lockdown successful!", ephemeral: true });
+    }
 
-    await discCat.permissionOverwrites.create(discCat.guild.roles.everyone, {
-      SendMessages: false,
-    });
-    await commCat.permissionOverwrites.create(commCat.guild.roles.everyone, {
-      SendMessages: false,
-    });
-
-    interaction.reply({ content: "Lockdown successful!", ephemeral: true });
+    if (interaction.options.getSubcommand() === "lift") {
+      await discCat.permissionOverwrites.create(discCat.guild.roles.everyone, {
+        SendMessages: null,
+      });
+      await commCat.permissionOverwrites.create(commCat.guild.roles.everyone, {
+        SendMessages: null,
+      });
+  
+      discCat.children.cache.forEach(channel => {
+        if (channel.id !== "1018396794834661508" && channel.id !== "965271666684985454" && channel.id !== "760548421790203934") {
+          channel.send({ embeds: [lockEmbed] })
+        }
+      })
+      commCat.children.cache.forEach(channel => {
+        if (channel.id !== "1018396794834661508" && channel.id !== "965271666684985454" && channel.id !== "760548421790203934") {
+          channel.send({ embeds: [lockEmbed] })
+        }
+      })
+  
+      interaction.reply({ content: "Unlockdown successful!", ephemeral: true });
+    }
   },
 };

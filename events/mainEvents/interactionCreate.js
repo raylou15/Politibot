@@ -30,7 +30,7 @@ module.exports = {
     if (interaction.type === InteractionType.ApplicationCommandAutocomplete) {
       try {
         await command.autocomplete(interaction, client);
-
+        return console.log("autocomplete loaded for command")
       } catch (error) {
         return console.error(error)
       }

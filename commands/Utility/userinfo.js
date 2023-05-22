@@ -21,6 +21,10 @@ const {
         const targetUser = interaction.options.getUser('target')
         const targetMember = client.guilds.cache.get('760275642150420520').members.cache.get(targetUser.id)
 
+        if (targetMember === undefined) {
+            return interaction.reply({ ephemeral: true, content: "This user is likely not apart of this server."})
+        }
+
         const accountCreated = parseInt(targetMember.user.createdTimestamp / 1000);
         const joinTime = parseInt(targetMember.joinedAt / 1000);
 

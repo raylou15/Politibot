@@ -13,6 +13,7 @@ const {
   ButtonInteraction,
   ComponentType,
   Embed,
+  time,
 } = require("discord.js");
 const infractionData = require("../../schemas/infractions");
 const ms = require("ms");
@@ -29,52 +30,77 @@ module.exports = {
     const footertext = embed1.footer.text.split(" ");
 
     const authortext = embed1.author.name.replace(/[()]/g, "").split(" ");
+    const lastpart = authortext.length - 1
 
-    console.log(authortext) 
-
-    const target1 = authortext[1];
+    const target1 = authortext[lastpart];
 
     let targetAvatar;
     let targetUsername;
+    let naviButtons;
     let logData = [];
     logData = await infractionData.find({ TargetID: target1 });
 
     const target = interaction.guild.members.cache.get(target1);
-    console.log(target)
 
     if (target) {
-      targetUsername = `${target.user.username.replace(/\s+/g, "_")} (${target.id})`;
+      targetUsername = `${target.displayName} (${target.id})`;
       targetAvatar = target.displayAvatarURL();
+      naviButtons = new ActionRowBuilder().addComponents(
+        new ButtonBuilder()
+          .setCustomId("moduserinfo")
+          .setLabel("User Info")
+          .setStyle(ButtonStyle.Secondary),
+        new ButtonBuilder()
+          .setCustomId("moderationlog")
+          .setLabel("Moderation")
+          .setStyle(ButtonStyle.Secondary),
+        new ButtonBuilder()
+          .setCustomId("notes")
+          .setLabel("Incidents")
+          .setStyle(ButtonStyle.Secondary),
+        new ButtonBuilder()
+          .setCustomId("reminders")
+          .setLabel("Reminders")
+          .setStyle(ButtonStyle.Primary)
+      );
     } else {
-      targetUsername = `${authortext[0]} (${target1})`;
+      const allbutLast = authortext.slice(0, array.length - 1)
+      targetUsername = `${allbutLast.join(" ")} (${target1})`;
       targetAvatar = embed1.author.iconURL;
+      naviButtons = new ActionRowBuilder().addComponents(
+        new ButtonBuilder()
+          .setCustomId("moduserinfo")
+          .setLabel("User Info")
+          .setStyle(ButtonStyle.Secondary)
+          .setDisabled(true),
+        new ButtonBuilder()
+          .setCustomId("moderationlog")
+          .setLabel("Moderation")
+          .setStyle(ButtonStyle.Secondary),
+        new ButtonBuilder()
+          .setCustomId("notes")
+          .setLabel("Incidents")
+          .setStyle(ButtonStyle.Secondary),
+        new ButtonBuilder()
+          .setCustomId("reminders")
+          .setLabel("Reminders")
+          .setStyle(ButtonStyle.Primary)
+      );
     }
 
     let logDataEmbed = new EmbedBuilder()
       .setAuthor({ name: targetUsername, iconURL: targetAvatar })
       .setColor("White")
       .setTitle("Rule Reminder Log History")
-      .setFooter({ text: `Requested by ${interaction.user.username}` })
+      .setFooter({ text: `Requested by ${interaction.member.displayName}` })
       .setTimestamp();
 
-    const naviButtons = new ActionRowBuilder().addComponents(
-      new ButtonBuilder()
-        .setCustomId("moduserinfo")
-        .setLabel("User Info")
-        .setStyle(ButtonStyle.Secondary),
-      new ButtonBuilder()
-        .setCustomId("moderationlog")
-        .setLabel("Moderation")
-        .setStyle(ButtonStyle.Secondary),
-      new ButtonBuilder()
-        .setCustomId("notes")
-        .setLabel("Incidents")
-        .setStyle(ButtonStyle.Secondary),
-      new ButtonBuilder()
-        .setCustomId("reminders")
-        .setLabel("Reminders")
-        .setStyle(ButtonStyle.Primary)
-    );
+    let warnings = 0;
+    let kicks = 0;
+    let bans = 0;
+    let incidents = 0;
+    let mutes = 0;
+    let reminders = 0;
 
     if (!logData) {
       return interaction.reply("There are no logs to show for this user!");
@@ -82,14 +108,60 @@ module.exports = {
       let issuerUser;
       logData.forEach((element) => {
         issuerUser = interaction.guild.members.cache.get(element.IssuerID);
-        if (element.InfractionType === "Rule Reminder") {
-          logDataEmbed.addFields({
-            name: `📋 ${element.InfractionType} issued by ${issuerUser.user.username}`,
-            value: `${element.Date}\n${element.Reason}\n━━━━━━━━━━━━━━━`,
-          });
+        if (issuerUser) {
+          if (element.InfractionType === "Incident") {
+            incidents = incidents + 1
+          }
+          if (element.InfractionType === "Warn") {
+            warnings = warnings + 1
+          }
+          if (element.InfractionType === "Kick") {
+            kicks = kicks + 1
+          }
+          if (element.InfractionType === "Ban") {
+            bans = bans + 1
+          }
+          if (element.InfractionType === "Mute" || element.InfractionType === "Voice Mute") {
+            mutes = mutes + 1
+          }
+          if (element.InfractionType === "Rule Reminder") {
+            logDataEmbed.addFields({
+              name: `📋 ${element.InfractionType} issued by ${issuerUser.displayName}`,
+              value: `${time(element.Date)}\n${element.Reason}\n━━━━━━━━━━━━━━━`,
+            });
+            reminders = reminders + 1
+          }
+        } else {
+          if (element.InfractionType === "Incident") {
+            incidents = incidents + 1
+          }
+          if (element.InfractionType === "Warn") {
+            warnings = warnings + 1
+          }
+          if (element.InfractionType === "Kick") {
+            kicks = kicks + 1
+          }
+          if (element.InfractionType === "Ban") {
+            bans = bans + 1
+          }
+          if (element.InfractionType === "Mute" || element.InfractionType === "Voice Mute") {
+            mutes = mutes + 1
+          }
+          if (element.InfractionType === "Rule Reminder") {
+            logDataEmbed.addFields({
+              name: `📋 ${element.InfractionType} issued by ${element.IssuerID}`,
+              value: `${time(element.Date)}\n${element.Reason}\n━━━━━━━━━━━━━━━`,
+            });
+            reminders = reminders + 1
+          }
         }
       });
     }
+
+    logDataEmbed.addFields({
+      name: `📊  User Logs Data:`,
+      value: '- Reminders: `' + `${reminders}` + '` | Incidents: `' + `${incidents}` + '` | Warnings: `' + `${warnings}` + '` | Mutes: `' + `${mutes}` + '` | Kicks: `' + `${kicks}` + '` | Bans: `' + `${bans}` + '`'
+    });
 
     interaction.update({ embeds: [logDataEmbed], components: [naviButtons] });
   },

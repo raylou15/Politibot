@@ -401,7 +401,7 @@ module.exports = {
               IssuerID: interaction.user.id,
               InfractionType: "Rule Reminder",
               Date: Date.now(),
-              Reason: `Rule 1 Reminder: ${targetMsg.url}`,
+              Reason: `R1 Reminder: ${targetMsg.url}`,
             });
             await profileData.save().catch(console.error);
             console.log("New log created and saved!");
@@ -451,7 +451,7 @@ module.exports = {
               IssuerID: interaction.user.id,
               InfractionType: "Rule Reminder",
               Date: Date.now(),
-              Reason: `Rule 2 Reminder: ${targetMsg.url}`,
+              Reason: `R2 Reminder: ${targetMsg.url}`,
             });
             await profileData.save().catch(console.error);
             console.log("New log created and saved!");
@@ -507,7 +507,7 @@ module.exports = {
               IssuerID: interaction.user.id,
               InfractionType: "Rule Reminder",
               Date: Date.now(),
-              Reason: `Rule 3 Reminder: ${targetMsg.url}`,
+              Reason: `R3 Reminder: ${targetMsg.url}`,
             });
             await profileData.save().catch(console.error);
             console.log("New log created and saved!");
@@ -559,7 +559,7 @@ module.exports = {
               IssuerID: interaction.user.id,
               InfractionType: "Rule Reminder",
               Date: Date.now(),
-              Reason: `Rule 4 Reminder: ${targetMsg.url}`,
+              Reason: `R4 Reminder: ${targetMsg.url}`,
             });
             await profileData.save().catch(console.error);
             console.log("New log created and saved!");
@@ -608,7 +608,7 @@ module.exports = {
               IssuerID: interaction.user.id,
               InfractionType: "Rule Reminder",
               Date: Date.now(),
-              Reason: `Rule 5 Reminder: ${targetMsg.url}`,
+              Reason: `R5 Reminder: ${targetMsg.url}`,
             });
             await profileData.save().catch(console.error);
             console.log("New log created and saved!");
@@ -656,7 +656,7 @@ module.exports = {
               IssuerID: interaction.user.id,
               InfractionType: "Rule Reminder",
               Date: Date.now(),
-              Reason: `Rule 6 Reminder: ${targetMsg.url}`,
+              Reason: `R6 Reminder: ${targetMsg.url}`,
             });
             await profileData.save().catch(console.error);
             console.log("New log created and saved!");
@@ -710,7 +710,7 @@ module.exports = {
               IssuerID: interaction.user.id,
               InfractionType: "Rule Reminder",
               Date: Date.now(),
-              Reason: `Rule 7 Reminder: ${targetMsg.url}`,
+              Reason: `R7 Reminder: ${targetMsg.url}`,
             });
             await profileData.save().catch(console.error);
             console.log("New log created and saved!");
@@ -745,7 +745,7 @@ module.exports = {
               IssuerID: interaction.user.id,
               InfractionType: "Rule Reminder",
               Date: Date.now(),
-              Reason: `Rule 8 Reminder: ${targetMsg.url}`,
+              Reason: `R8 Reminder: ${targetMsg.url}`,
             });
             await profileData.save().catch(console.error);
             console.log("New log created and saved!");
@@ -780,7 +780,7 @@ module.exports = {
               IssuerID: interaction.user.id,
               InfractionType: "Rule Reminder",
               Date: Date.now(),
-              Reason: `Rule 9 Reminder: ${targetMsg.url}`,
+              Reason: `R9 Reminder: ${targetMsg.url}`,
             });
             await profileData.save().catch(console.error);
             console.log("New log created and saved!");
@@ -817,7 +817,7 @@ module.exports = {
               IssuerID: interaction.user.id,
               InfractionType: "Rule Reminder",
               Date: Date.now(),
-              Reason: `Rule 10 Reminder: ${targetMsg.url}`,
+              Reason: `R10 Reminder: ${targetMsg.url}`,
             });
             await profileData.save().catch(console.error);
             console.log("New log created and saved!");
@@ -871,7 +871,7 @@ module.exports = {
               IssuerID: interaction.user.id,
               InfractionType: "Rule Reminder",
               Date: Date.now(),
-              Reason: `Rule 11 Reminder: ${targetMsg.url}`,
+              Reason: `R11 Reminder: ${targetMsg.url}`,
             });
             await profileData.save().catch(console.error);
             console.log("New log created and saved!");
@@ -925,7 +925,7 @@ module.exports = {
               IssuerID: interaction.user.id,
               InfractionType: "Rule Reminder",
               Date: Date.now(),
-              Reason: `Rule 12 Reminder: ${targetMsg.url}`,
+              Reason: `R12 Reminder: ${targetMsg.url}`,
             });
             await profileData.save().catch(console.error);
             console.log("New log created and saved!");
@@ -969,7 +969,7 @@ module.exports = {
             IssuerID: interaction.user.id,
             InfractionType: "Rule Reminder",
             Date: Date.now(),
-            Reason: `Rule 13 Reminder: ${targetMsg.url}`,
+            Reason: `R13 Reminder: ${targetMsg.url}`,
           });
           await profileData.save().catch(console.error);
           console.log("New log created and saved!");

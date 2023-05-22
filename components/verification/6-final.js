@@ -54,8 +54,10 @@ module.exports = {
       uniRole = interaction.member.roles.add(lfcrole);
     }
 
-    interaction.member.roles.remove("909988798308433920");
-    interaction.member.roles.add("909989200378601472");
+    await interaction.member.roles.remove("909988798308433920");
+    console.log("Removed Unverified Role")
+    await interaction.member.roles.add("909989200378601472");
+    console.log("Added Verified Role")
 
     const logEmbed = new EmbedBuilder()
       .setColor("Green")
