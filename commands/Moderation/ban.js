@@ -155,6 +155,10 @@ module.exports = {
         return console.log("Error occurred in ban.js", err);
       });
     }
+
+    const pubLogChannel = interaction.guild.channels.cache.get("1129110488274456577");
+    pubLogChannel.send({ embeds: [banEmbed]});
+
     //MongoDB: Handling the data behind the scenes!
     //This updates the Case Counter.
     await CaseCountSchema.findOneAndUpdate({

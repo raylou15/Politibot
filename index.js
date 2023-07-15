@@ -3,6 +3,7 @@ const {
   GatewayIntentBits,
   Partials,
   Collection,
+  EmbedBuilder,
 } = require("discord.js");
 const schedule = require("node-schedule");
 const xp = require("simply-xp");
@@ -35,6 +36,15 @@ newPost.second = 5;
 newPost.minute = 0;
 newPost.hour = 15;
 schedule.scheduleJob(newPost, () => {topicofthedayhandler.newPost(client)})
+
+// ChatGPT Scraper
+const chatGPTHandler = require("./handlers/chatgpthandler")
+// const chat01mins = new schedule.RecurrenceRule();
+// chat01mins.minute = 1;
+// schedule.scheduleJob(chat01mins, () => {chatGPTHandler.checkChat(client)})
+// const chat30mins = new schedule.RecurrenceRule();
+// chat30mins.minute = 30;
+// schedule.scheduleJob(chat30mins, () => {chatGPTHandler.checkChat(client)})
 
 // Newsletter Rules
 // const newsletterhandler = require("./handlers/newsletterhandler")
@@ -77,6 +87,13 @@ sevenPM.second = 5;
 sevenPM.minute = 0;
 sevenPM.hour = 20;
 schedule.scheduleJob(sevenPM, () => {bumpreminders.bumpReminder(client)})
+
+const randomTopicHandlers = require("./handlers/randomtopic")
+const randomTopic = new schedule.RecurrenceRule();
+randomTopic.tz = 'America/New_York'
+randomTopic.second = 5;
+randomTopic.minute = 0;
+schedule.scheduleJob(randomTopic, () => {randomTopicHandlers.ChooseRandomTopic(client)})
 
 // Setting up commands, events, and components.
 client.config = require("./config.json");

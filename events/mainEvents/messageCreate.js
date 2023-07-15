@@ -21,6 +21,10 @@ module.exports = {
         }
       }
 
+      if (message.channel.id == "1129097950635753522" && message.author.id != "178689418415177729") {
+        message.delete()
+      }
+
       if (message.author.bot) {
         return;
       }
@@ -75,6 +79,25 @@ module.exports = {
       //   message.member.timeout(5 * 1000);
       //   message.delete();
       // }
+      //AMERICAA
+      // if ((message.author.id === "964446816378695730" || message.author.id == "488434734603698196" || message.author.id == "999108427265609768" || message.author.id == "552283716882268164" || message.author.id == "267790663125434370" || message.author.id == "1116081598958416075" ) && message.channel.id == "760275642150420523") {
+      //   message.reply(
+      //     "https://www.archives.gov/founding-docs/declaration-transcript \nhttps://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExaDNnN3Vubjc2ZGZ2Mmp3a29sa2h1cm1qYXE0cmF5cG0wamFzdmk2diZlcD12MV9naWZzX3NlYXJjaCZjdD1n/hXJ1MWMzY7Af32UIUD/giphy.gif \nhttps://www.youtube.com/shorts/TPY0O1BHF2g"
+      //   )
+      //   message.channel.send(
+      //     "AMERICAAAAAAAAAAAAAAAAAAAAAAAA :flag_us: :flag_us: :flag_us: :flag_us: :flag_us: :flag_us: FREEEEEDOOOOOOOOM RAAAAAAAAAAAAAAAAAAHHHHHHHHHHHHHHH"
+      //   )
+      //   message.channel.send(
+      //     "**We the People** of the United States, in Order to form a more perfect Union, establish Justice, insure domestic Tranquility, provide for the common defence, promote the general Welfare, and secure the Blessings of Liberty to ourselves and our Posterity, do ordain and establish this Constitution for the United States of America."
+      //   )
+      //   message.channel.send(
+      //     "I pledge allegiance to the Flag of the United States of America, and to the Republic for which it stands, one Nation under God, indivisible, with liberty and justice for all."
+      //   )
+      //   message.channel.send(
+      //     "https://www.youtube.com/watch?v=sDRRXq41rac\nO say can you see by the dawn's early light\nWhat so proudly we hailed at the twilight's last gleaming\nWhose broad stripes and bright stars through the perilous fight\nO'er the ramparts we watched, were so gallantly streaming?\nAnd the rocket's red glare, the bombs bursting in air\nGave proof through the night that our flag was still there\nO say does that star-spangled banner yet wave\nO'er the land of the free and the home of the brave"
+      //   )
+      // }
+
 
       if (message.content.toLowerCase().includes("socialism is when")) {
         message.reply("https://www.youtube.com/watch?v=rgiC8YfytDw");
@@ -119,6 +142,10 @@ module.exports = {
       ) {
         message.reply(":clown:");
       }
+
+      // if (message.author.id === "1084288779096965213" || message.author.id === "542504628970061857") {
+      //   message.reply("🤡")
+      // }
 
       // Logging messages
       // let messages = [];

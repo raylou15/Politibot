@@ -28,7 +28,7 @@ module.exports = {
             }
         }
     }
-    if (typing.channel.parent.id === "1053882820684169266" && !typing.user.bot) {
+    if ((typing.channel.parent) && (typing.channel.parent.id === "1053882820684169266") && (!typing.user.bot)) {
         const nameArgs = typing.channel.name.split("-")
         const targetDiscrim1 = `${nameArgs[0]}`
         const targetDiscrim = targetDiscrim1.replace("_", " ")

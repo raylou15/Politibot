@@ -149,13 +149,17 @@ module.exports = {
     interaction.reply({ embeds: [kickEmbed] });
     logChannel.send({ embeds: [kickEmbed] });
     target.user
-      .send({ embeds: [kickDMEmbed], components: [rejoinInvite] })
-      .catch(async (err) => {
-        console.log(err);
-        logChannel.send({
-          content:
-            "I couldn't DM this user since they do not accept DMs from server bots/members.",
-        });
+    .send({ embeds: [kickDMEmbed], components: [rejoinInvite] })
+    .catch(async (err) => {
+      console.log(err);
+      logChannel.send({
+        content:
+          "I couldn't DM this user since they do not accept DMs from server bots/members.",
       });
+    });
+
+    const pubLogChannel = interaction.guild.channels.cache.get("1129110488274456577");
+    pubLogChannel.send({ embeds: [kickEmbed]});
+
   },
 };

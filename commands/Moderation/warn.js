@@ -143,5 +143,9 @@ module.exports = {
           "I couldn't DM this user since they do not accept DMs from server bots/members.",
       });
     });
+
+    const pubLogChannel = interaction.guild.channels.cache.get("1129110488274456577");
+    pubLogChannel.send({ embeds: [warnEmbed]});
+
   },
 };

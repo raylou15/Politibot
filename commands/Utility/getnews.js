@@ -17,7 +17,8 @@ const client = (module.exports = {
    */
   async execute(interaction, client) {
     // getNews.getNPRNews(client)
-    getNews.getPOLITICONews(client)
+    // getNews.getPOLITICONews(client)
+    getNews.getCNNNews(client)
     interaction.reply("done")
   },
 });

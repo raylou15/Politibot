@@ -64,7 +64,7 @@ module.exports = {
           .setStyle(ButtonStyle.Secondary)
       );
     } else {
-      const allbutLast = authortext.slice(0, array.length - 1)
+      const allbutLast = authortext.slice(0, authortext.length - 1)
       targetUsername = `${allbutLast.join(" ")} (${target1})`;
       targetAvatar = embed1.author.iconURL;
       naviButtons = new ActionRowBuilder().addComponents(

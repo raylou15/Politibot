@@ -31,9 +31,11 @@ module.exports = {
 
     const authortext = embed1.author.name.replace(/[()]/g, "").split(" ");
 
-    console.log(authortext) 
+    console.log(authortext)
 
-    const target1 = authortext[1];
+    const lastNumber = authortext.length - 1
+
+    const target1 = authortext[lastNumber];
 
     let targetAvatar;
     let targetUsername;
@@ -82,7 +84,8 @@ module.exports = {
     console.log(target)
 
     if (target) {
-      targetUsername = `${target.user.username.replace(/\s+/g, "_")} (${target.id})`;
+      const allbutLast = authortext.slice(0, authortext.length - 1)
+      targetUsername = `${allbutLast.join(" ")} (${target1})`;
       targetAvatar = target.displayAvatarURL();
       targetMember = interaction.guild.members.cache.get(target.id);
       if (targetMember === undefined) {
