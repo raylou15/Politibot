@@ -37,30 +37,6 @@ newPost.minute = 0;
 newPost.hour = 15;
 schedule.scheduleJob(newPost, () => {topicofthedayhandler.newPost(client)})
 
-// ChatGPT Scraper
-const chatGPTHandler = require("./handlers/chatgpthandler")
-// const chat01mins = new schedule.RecurrenceRule();
-// chat01mins.minute = 1;
-// schedule.scheduleJob(chat01mins, () => {chatGPTHandler.checkChat(client)})
-// const chat30mins = new schedule.RecurrenceRule();
-// chat30mins.minute = 30;
-// schedule.scheduleJob(chat30mins, () => {chatGPTHandler.checkChat(client)})
-
-// Newsletter Rules
-// const newsletterhandler = require("./handlers/newsletterhandler")
-// const rule1 = new schedule.RecurrenceRule();
-// rule1.tz = 'America/New_York'
-// rule1.second = 30;
-// rule1.minute = 49;
-// rule1.hour = 2;
-// const rule2 = new schedule.RecurrenceRule();
-// rule2.tz = 'America/New_York'
-// rule2.second = 5
-// rule2.minute = 0
-// rule2.hour = 20
-// schedule.scheduleJob(rule1, () => {newsletterhandler.MorningNews(client)});
-// schedule.scheduleJob(rule2, () => {newsletterhandler.EveningNews(client)});
-
 // Bump Reminders
 const bumpreminders = require("./handlers/bumpreminders")
 const oneAM = new schedule.RecurrenceRule();

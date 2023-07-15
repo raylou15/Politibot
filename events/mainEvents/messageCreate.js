@@ -45,31 +45,6 @@ module.exports = {
         await message.react(down);
       }
 
-      // New XP System:
-      xp.addXP(message, message.author.id, message.guild.id, 10);
-
-      //Trusted Member Status
-
-      const status = Date.now();
-      const joined = await member.joinedTimestamp;
-      const datetime = status - joined;
-      const userXP = xp.fetch(message.author.id, message.guild.id);
-
-      if (
-        member.roles.cache.has("909989200378601472") &&
-        (await userXP.level) >= 6 &&
-        datetime >= 1209600000
-      ) {
-        member.roles
-          .add("775838439538425866")
-          .then(member.roles.remove("909989200378601472"))
-          .then(
-            message.channel.send(
-              `${member.user}, congratulations! You have become a trusted member. You now have access to important permissions and channels.`
-            )
-          );
-      }
-
       //Filtered messages
 
       // if (message.author.id === "268362876346040320") {
