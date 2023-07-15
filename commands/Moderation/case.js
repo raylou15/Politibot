@@ -164,10 +164,65 @@ module.exports = {
 
       if (!logData) return interaction.reply("This Case ID doesn't exist. Check your ID again.")
 
+      const targetUser = await interaction.guild.members.fetch(
+        `${logData.TargetID}`
+      );
+      if (targetUser === undefined) {
+        return interaction.reply({ ephemeral: true, content: "This user has left the server."})
+      }
+      const issuerUser = await interaction.guild.members.fetch(
+        `${logData.IssuerID}`
+      );
+      let typeInfo;
+
+      if (logData.InfractionType === "Mute") {
+        typeInfo = `**Member muted for ${logData.Duration}:**\n🔇 ${targetUser} (${logData.TargetID})`;
+      } else if (logData.InfractionType === "Incident") {
+        typeInfo = `**Incident issued against member:**\n🚫 ${await targetUser} (${
+          logData.TargetID
+        })`;
+      } else if (logData.InfractionType === "Warn") {
+        typeInfo = `**Member issued warning:**\n⚠️ ${await targetUser} (${
+          logData.TargetID
+        })`;
+      } else if (logData.InfractionType === "Kick") {
+        typeInfo = `**Member kicked:**\n🥾 ${await targetUser} (${
+          logData.TargetID
+        })`;
+      } else if (logData.InfractionType === "Ban") {
+        typeInfo = `**Member banned:**\n🔨 (${logData.TargetID})`;
+      } else if (logData.InfractionType === "Voice Mute") {
+        typeInfo = `**Member voice muted:**\n🔇 ${await targetUser} (${logData.TargetID})`;
+      } else {
+        typeInfo = "ERROR";
+      }
+
+      const editEmbed = new EmbedBuilder()
+      .setColor("Red")
+      .setAuthor({
+        name: `${targetUser.displayName}`,
+        iconURL: `${targetUser.user.displayAvatarURL({dynamic: true})}`,
+      })
+      .setDescription(typeInfo)
+      .addFields(
+        { name: "**Reason:**", value: logData.Reason },
+        { name: "**Case ID:**", value: logData.CaseID.toString() }
+      )
+      .setFooter({
+        text: "Action Issued: " + logData.Date + ` by ${issuerUser.displayName}`,
+        iconURL: client.user.displayAvatarURL({dynamic: true}),
+      });
+
       await infractionData.findOneAndUpdate(
         { CaseID: caseID }, 
         { $set: {Reason: `CASE DELETED BY ${interaction.user.username}`, TargetID: "0"} }
       ).then(interaction.reply(`Case ID ${caseID} deleted!`))
+
+      targetUser.send({ content: "A previous case has been deleted:", embeds: [editEmbed]});
+      const logChannel = interaction.guild.channels.cache.get("1052421373353525351");
+      logChannel.send({ content: "A previous case has been deleted:", embeds: [editEmbed] });
+      const pubLogChannel = interaction.guild.channels.cache.get("1129110488274456577");
+      pubLogChannel.send({ content: "A previous case has been deleted:", embeds: [editEmbed] });
 
     } else if (interaction.options.getSubcommand() === "reason") {
       const newReason = interaction.options.getString("reason");
@@ -187,6 +242,9 @@ module.exports = {
       const targetUser = await interaction.guild.members.fetch(
         `${logData.TargetID}`
       );
+      if (targetUser === undefined) {
+        return interaction.reply({ ephemeral: true, content: "This user has left the server."})
+      }
       const issuerUser = await interaction.guild.members.fetch(
         `${logData.IssuerID}`
       );
@@ -237,6 +295,13 @@ module.exports = {
             "I couldn't DM this user since they do not accept DMs from server bots/members.",
         });
       });
+
+      const logChannel = interaction.guild.channels.cache.get("1052421373353525351");
+      logChannel.send({ content: "A previous case has been updated with a new Reason:", embeds: [editEmbed] });
+      const pubLogChannel = interaction.guild.channels.cache.get("1129110488274456577");
+      pubLogChannel.send({ content: "A previous case has been updated with a new Reason:", embeds: [editEmbed] });
+
+
 
     } else if (interaction.options.getSubcommand() === "type") {
       const newType = interaction.options.getString("type");
@@ -330,6 +395,11 @@ module.exports = {
             "I couldn't DM this user since they do not accept DMs from server bots/members.",
         });
       });
+
+      const logChannel = interaction.guild.channels.cache.get("1052421373353525351");
+      logChannel.send({ content: "A previous case has been updated with a new infraction type:", embeds: [editEmbed] });
+      const pubLogChannel = interaction.guild.channels.cache.get("1129110488274456577");
+      pubLogChannel.send({ content: "A previous case has been updated with a new infraction type:", embeds: [editEmbed] });
 
     }
   },
