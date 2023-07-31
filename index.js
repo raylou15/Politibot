@@ -20,23 +20,6 @@ const client = new Client({
 
 const { loadEvents } = require("./handlers/handler");
 
-// Topic of the Day
-const topicCountSchema = require("./schemas/topiccount");
-const topiclistSchema = require("./schemas/topiclist");
-const topicofthedayhandler = require("./handlers/topicofthedayhandler")
-const oldPost = new schedule.RecurrenceRule();
-oldPost.tz = 'America/New_York'
-oldPost.second = 5;
-oldPost.minute = 55;
-oldPost.hour = 14;
-schedule.scheduleJob(oldPost, () => {topicofthedayhandler.oldPost(client)})
-const newPost = new schedule.RecurrenceRule();
-newPost.tz = 'America/New_York'
-newPost.second = 5;
-newPost.minute = 0;
-newPost.hour = 15;
-schedule.scheduleJob(newPost, () => {topicofthedayhandler.newPost(client)})
-
 // Bump Reminders
 const bumpreminders = require("./handlers/bumpreminders")
 const oneAM = new schedule.RecurrenceRule();
