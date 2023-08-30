@@ -32,6 +32,12 @@ module.exports = {
     .setDescription("This channel has been locked by a Moderator **in a lockdown.** This usually means there has been a trend of out-of-control behavior in the server, or toxic conversations spilling over to other channels once a channel has been locked, or various other reasons. \n\n Please be patient. Some channels are still available for casual usage, and have intentionally not been locked.")
     .setFooter({ text: "If you have concerns, you are encouraged to use /openticket and speak with us."})
 
+    const unlockEmbed = new EmbedBuilder()
+    .setColor("Green")
+    .setTitle("🚨  Lockdown Lifted")
+    .setDescription("The lockdown has been lifted. Please behave, stay civil, and keep in mind our <#775838975755681842> when discussing and debating.")
+    .setFooter({ text: "If you have concerns, you are encouraged to use /openticket and speak with us."})
+
     const discCat = await interaction.guild.channels.fetch(
       "760275642150420521"
     );
@@ -71,12 +77,12 @@ module.exports = {
   
       discCat.children.cache.forEach(channel => {
         if (channel.id !== "1018396794834661508" && channel.id !== "965271666684985454" && channel.id !== "760548421790203934") {
-          channel.send({ embeds: [lockEmbed] })
+          channel.send({ embeds: [unlockEmbed] })
         }
       })
       commCat.children.cache.forEach(channel => {
         if (channel.id !== "1018396794834661508" && channel.id !== "965271666684985454" && channel.id !== "760548421790203934") {
-          channel.send({ embeds: [lockEmbed] })
+          channel.send({ embeds: [unlockEmbed] })
         }
       })
   

@@ -47,12 +47,12 @@ sevenPM.minute = 0;
 sevenPM.hour = 20;
 schedule.scheduleJob(sevenPM, () => {bumpreminders.bumpReminder(client)})
 
-const randomTopicHandlers = require("./handlers/randomtopic")
-const randomTopic = new schedule.RecurrenceRule();
-randomTopic.tz = 'America/New_York'
-randomTopic.second = 5;
-randomTopic.minute = 0;
-schedule.scheduleJob(randomTopic, () => {randomTopicHandlers.ChooseRandomTopic(client)})
+// const randomTopicHandlers = require("./handlers/randomtopic")
+// const randomTopic = new schedule.RecurrenceRule();
+// randomTopic.tz = 'America/New_York'
+// randomTopic.second = 5;
+// randomTopic.minute = 0;
+// schedule.scheduleJob(randomTopic, () => {randomTopicHandlers.ChooseRandomTopic(client)})
 
 // Setting up commands, events, and components.
 client.config = require("./config.json");

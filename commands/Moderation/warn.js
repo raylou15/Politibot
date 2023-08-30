@@ -25,22 +25,40 @@ module.exports = {
     )
     .addStringOption((options) =>
       options
+        .setName("violation")
+        .setDescription("What rule(s) did they violate? You can type your own or choose from the menu")
+        .setAutocomplete(true)  
+        .setRequired(true)
+    )
+    .addStringOption((options) =>
+      options
         .setName("reason")
         .setDescription("Provide a reason!")
         .setRequired(true)
+        .setMaxLength(950)
     ),
   /**
    *
    * @param {ChatInputCommandInteraction} interaction
    */
+  async autocomplete(interaction) {
+    const focusedOption = interaction.options.getFocused(true);
+    let choices;
+
+    if (focusedOption.name === "violation") {
+      choices = ['Trolling', 'Misusing Channels', 'No Tolerance Policy', 'R1', 'R2', 'R3', 'R4', 'R5', 'R6', 'R7', 'R8', 'R9', 'R10', 'R11', 'R12', 'R13', 'Discussing Moderation Actions', 'Link Spam', 'English Only'];
+    }
+
+		const filtered = choices.filter(choice => choice.startsWith(focusedOption.value));
+		await interaction.respond(
+			filtered.map(choice => ({ name: choice, value: choice })),
+		);
+  },
   async execute(interaction, client) {
     const { options, guild, member } = interaction;
     const target = options.getMember("target");
+    const violation = options.getString("violation");
     const reason = options.getString("reason");
-
-    if (reason.length > 1000) {
-      return interaction.reply({ephemeral: true, content: `Your log must be under 1000 characters. You are currently at ${reason.length}`})
-    }
 
     //This collects all errors in an interaction to relay back to the user at the same time.
     const errorsArray = [];
@@ -86,7 +104,7 @@ module.exports = {
       IssuerID: interaction.user.id,
       InfractionType: "Warn",
       Date: Date.now(),
-      Reason: reason,
+      Reason: violation + " | " + reason,
     });
     await profileData.save().catch(console.error);
     console.log("New log created and saved!");
@@ -101,7 +119,7 @@ module.exports = {
         `**Member issued warning:**\n⚠️ ${target.user} (${target.id})`
       )
       .addFields(
-        { name: "**Reason:**", value: reason },
+        { name: "**Reason:**", value: violation + " | " + reason },
         { name: "**Case ID:**", value: caseNumVal.toString() }
       )
       .setFooter({
@@ -117,7 +135,7 @@ module.exports = {
         iconURL: interaction.guild.iconURL(),
       })
       .setTitle(`A moderator has warned you:`)
-      .addFields({ name: "**Reason:**", value: reason })
+      .addFields({ name: "**Reason:**", value: violation + " | " + reason })
       .setFooter({
         text: "Please use /openticket if you would like to appeal this decision. Do not discuss this in public channels, please.",
         iconURL: client.user.displayAvatarURL(),

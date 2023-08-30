@@ -14,7 +14,6 @@ const {
     ComponentType,
     Embed,
   } = require("discord.js");
-  const verifyData = require("../../schemas/verificationdata");
   module.exports = {
     name: "rolesinfo",
     description: "info about our roles",
